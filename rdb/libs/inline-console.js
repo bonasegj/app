@@ -1,4 +1,5 @@
-(function () {
+//const inlineConsoleMain = function () {
+const inlineConsoleMain = () => {
   var inlineConsole,
     consoleWrapper,
     initInlineConsole,
@@ -6,7 +7,7 @@
     toggleVisible,
     clearConsole,
     isDescendant,
-    consoleHeight = 240,
+    consoleHeight = 150,
     //watchEvents = ['click','focus','unfocus','blur','unblur','touchstart','touchend'],
     watchEvents = [],
     logCount = 0,
@@ -18,6 +19,7 @@
     oldInfo = console.info,
     oldError = console.error,
     consoleWrapper = document.createElement("div");
+  consoleWrapper = document.getElementById("console");
 
   /** From: http://stackoverflow.com/questions/2234979/how-to-check-in-javascript-if-one-element-is-contained-within-another **/
   isDescendant = function (parent, child) {
@@ -33,7 +35,7 @@
 
   initInlineConsole = function () {
     if (!inlineConsole) {
-      var consoleTitle = document.createElement("h3"),
+      var consoleTitle = document.createElement("h6"),
         clearButton = document.createElement("button");
 
       inlineConsole = document.createElement("div");
@@ -41,22 +43,22 @@
       consoleWrapper.appendChild(consoleTitle);
       consoleWrapper.appendChild(inlineConsole);
 
-      consoleWrapper.style.backgroundColor = "#333333";
-      consoleWrapper.style.color = "#cccccc";
-      consoleWrapper.style.position = "fixed";
+      consoleWrapper.style.backgroundColor = "#cccccc";
+      consoleWrapper.style.color = "#333333";
+      consoleWrapper.style.position = "absolute"; // fixed
       consoleWrapper.style.bottom = "0";
       consoleWrapper.style.right = "0";
       consoleWrapper.style.left = "0";
       consoleWrapper.style.clear = "both";
 
       clearButton.innerHTML = "clear";
-      clearButton.style.fontSize = "0.5em";
+      clearButton.style.fontSize = "1.0em"; // 0.5em
       clearButton.style.float = "right";
       clearButton.style.color = "black";
       clearButton.onclick = clearConsole;
 
-      consoleTitle.innerHTML = "Inline Console";
-      consoleTitle.style.padding = "0.3em";
+      consoleTitle.innerHTML = "Consola Logueo";
+      consoleTitle.style.padding = "0.2em";
       consoleTitle.style.margin = "0";
       consoleTitle.style.fontFamily = "monospace";
       consoleTitle.appendChild(clearButton);
@@ -68,6 +70,7 @@
       inlineConsole.style.resize = "none";
       inlineConsole.style.overflowY = "auto";
       inlineConsole.style.fontFamily = "monospace";
+      //inlineConsole.appendChild(clearButton);
     }
   };
 
@@ -91,80 +94,83 @@
   };
 
   sendMsg = function (type, args, color) {
-    var el = document.createElement("div"),
-      nElement,
-      eId = type + "-" + ++logCount,
-      firstElementString = JSON.stringify(args[0]),
-      toggleElement = document.createElement("button"),
-      hrElement = document.createElement("hr"),
-      currentMs = new Date().getTime();
+    if (consoleWrapper.style.display !== "none") {
+      // JLB
+      var el = document.createElement("div"),
+        nElement,
+        eId = type + "-" + ++logCount,
+        firstElementString = JSON.stringify(args[0]),
+        toggleElement = document.createElement("button"),
+        hrElement = document.createElement("hr"),
+        currentMs = new Date().getTime();
 
-    initInlineConsole();
+      initInlineConsole();
 
-    el.style.clear = "both";
-    el.style.margin = "0";
-    el.style.padding = "0";
-    el.style.textAlign = "left";
-    if (color) {
-      el.style.color = color;
-    }
-
-    // Add Header
-    el.innerHTML +=
-      "<strong>" +
-      type +
-      "</strong> [" +
-      (currentMs - startMs) +
-      'ms]: <span style="display:none;" id="' +
-      eId +
-      '-hidden">' +
-      firstElementString.substring(0, 48) +
-      "...</span>";
-
-    // Add Content
-    if (args.length === 1) {
-      nElement = document.createElement("span");
-      nElement.id = eId;
-      nElement.innerHTML = firstElementString;
-      el.appendChild(nElement);
-    } else if (args.length > 1) {
-      nElement = document.createElement("ol");
-      nElement.id = eId;
-      nElement.style.margin = "0";
-      nElement.style.padding = "0";
-
-      for (var i = 0, len = args.length, item; i < len; i++) {
-        item = document.createElement("li");
-        item.innerHTML = JSON.stringify(args[i]);
-        nElement.appendChild(item);
+      el.style.clear = "both";
+      el.style.margin = "0";
+      el.style.padding = "0";
+      el.style.textAlign = "left";
+      if (color) {
+        el.style.color = color;
       }
 
-      el.appendChild(nElement);
-    }
-    // Add Toggle Text
-    if (firstElementString.length > 64 || args.length > 1) {
-      toggleElement.onclick = function (event) {
-        toggleVisible(event, eId, toggleElement);
-      };
-      toggleElement.innerHTML = "hide";
-      toggleElement.style.float = "right";
-      toggleElement.style.color = "black";
-      toggleElement.style.fontSize = "0.7em";
-      el.appendChild(toggleElement);
-    }
+      // Add Header
+      el.innerHTML +=
+        "<strong>" +
+        type +
+        "</strong> [" +
+        (currentMs - startMs) +
+        'ms]: <span style="display:none;" id="' +
+        eId +
+        '-hidden">' +
+        firstElementString.substring(0, 48) +
+        "...</span>";
 
-    // Add line between entries
-    hrElement.style.clear = "both";
-    hrElement.style.margin = "0";
-    hrElement.style.padding = "0";
-    el.appendChild(hrElement);
+      // Add Content
+      if (args.length === 1) {
+        nElement = document.createElement("span");
+        nElement.id = eId;
+        nElement.innerHTML = firstElementString;
+        el.appendChild(nElement);
+      } else if (args.length > 1) {
+        nElement = document.createElement("ol");
+        nElement.id = eId;
+        nElement.style.margin = "0";
+        nElement.style.padding = "0";
 
-    // Add everything to consoles
-    inlineConsole.appendChild(el);
-    if (el.clientHeight > consoleHeight) {
-      toggleVisible(null, eId, toggleElement);
+        for (var i = 0, len = args.length, item; i < len; i++) {
+          item = document.createElement("li");
+          item.innerHTML = JSON.stringify(args[i]);
+          nElement.appendChild(item);
+        }
+
+        el.appendChild(nElement);
+      }
+      // Add Toggle Text
+      if (firstElementString.length > 64 || args.length > 1) {
+        toggleElement.onclick = function (event) {
+          toggleVisible(event, eId, toggleElement);
+        };
+        toggleElement.innerHTML = "hide";
+        toggleElement.style.float = "right";
+        toggleElement.style.color = "black";
+        toggleElement.style.fontSize = "0.7em";
+        el.appendChild(toggleElement);
+      }
+
+      // Add line between entries
+      hrElement.style.clear = "both";
+      hrElement.style.margin = "0";
+      hrElement.style.padding = "0";
+      el.appendChild(hrElement);
+
+      // Add everything to consoles
+      inlineConsole.appendChild(el);
+      if (el.clientHeight > consoleHeight) {
+        toggleVisible(null, eId, toggleElement);
+      }
+      inlineConsole.scrollTop = inlineConsole.scrollHeight;
     }
-    inlineConsole.scrollTop = inlineConsole.scrollHeight;
   };
 
   console.log = function (message) {
@@ -226,7 +232,7 @@
   };
 
   window.onload = function () {
-    document.body.appendChild(consoleWrapper);
+    //document.body.appendChild(consoleWrapper);
   };
 
   /**
@@ -300,4 +306,5 @@
 
     this.oldSend(a);
   };
-})();
+};
+export default inlineConsoleMain;
