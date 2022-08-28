@@ -21,10 +21,10 @@ const copy = async (img) => {
   } else {
     text = new Blob([img.alt], { type: "text/plain" });
   }
-  //const clipboardData = {};
-  const clipboardData = {
-    "text/plain": text,
-  };
+  const clipboardData = {};
+  //const clipboardData = {
+  //  "text/plain": text,
+  //};
   // Always create a PNG representation.
   clipboardData["image/png"] = await toPNGBlob(img);
   // When dealing with a non-PNG image, create a
