@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg3383"
+   width="529.13385"
+   height="793.70081"
+   viewBox="0 0 529.13385 793.70081"
+   sodipodi:docname="receta2.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3387">
+    <mask
+       maskUnits="userSpaceOnUse"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       id="mask3447">
+      <image
+         width="1"
+         height="1"
+         style="image-rendering:optimizeSpeed"
+         preserveAspectRatio="none"
+         xlink:href="data:image/png;base64,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"
+         id="image3449" />
+    </mask>
+    <mask
+       maskUnits="userSpaceOnUse"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       id="mask3517">
+      <image
+         width="1"
+         height="1"
+         style="image-rendering:optimizeSpeed"
+         preserveAspectRatio="none"
+         xlink:href="data:image/png;base64,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"
+         id="image3519" />
+    </mask>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3535"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3527" />
+      <feMerge
+         id="feMerge3533"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3529" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3531" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3707" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3709"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3711">
+        <feMergeNode
+           id="feMergeNode3713"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3715"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3545"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3537" />
+      <feMerge
+         id="feMerge3543"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3539" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3541" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3717" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3719"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3721">
+        <feMergeNode
+           id="feMergeNode3723"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3725"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3555"
+       x="0"
+       y="-inf"
+       width="1"
+       height="inf">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3547" />
+      <feMerge
+         id="feMerge3553"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3549" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3551" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3727" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3729"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3731">
+        <feMergeNode
+           id="feMergeNode3733"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3735"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3565"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3557" />
+      <feMerge
+         id="feMerge3563"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3559" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3561" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3737" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3739"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3741">
+        <feMergeNode
+           id="feMergeNode3743"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3745"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3575"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3567" />
+      <feMerge
+         id="feMerge3573"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3569" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3571" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3747" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3749"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3751">
+        <feMergeNode
+           id="feMergeNode3753"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3755"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3585"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3577" />
+      <feMerge
+         id="feMerge3583"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3579" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3581" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3757" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3759"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3761">
+        <feMergeNode
+           id="feMergeNode3763"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3765"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3595"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3587" />
+      <feMerge
+         id="feMerge3593"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3589" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3591" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3767" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3769"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3771">
+        <feMergeNode
+           id="feMergeNode3773"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3775"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3605"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3597" />
+      <feMerge
+         id="feMerge3603"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3599" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3601" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3777" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3779"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3781">
+        <feMergeNode
+           id="feMergeNode3783"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3785"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3615"
+       x="-inf"
+       y="0"
+       width="inf"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3607" />
+      <feMerge
+         id="feMerge3613"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3609" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3611" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3787" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3789"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3791">
+        <feMergeNode
+           id="feMergeNode3793"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3795"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3625"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3617" />
+      <feMerge
+         id="feMerge3623"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3619" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3621" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3797" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3799"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3801">
+        <feMergeNode
+           id="feMergeNode3803"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3805"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3635"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3627" />
+      <feMerge
+         id="feMerge3633"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3629" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3631" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3807" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3809"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3811">
+        <feMergeNode
+           id="feMergeNode3813"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3815"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3645"
+       x="0"
+       y="-inf"
+       width="1"
+       height="inf">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3637" />
+      <feMerge
+         id="feMerge3643"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3639" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3641" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3817" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3819"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3821">
+        <feMergeNode
+           id="feMergeNode3823"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3825"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3655"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3647" />
+      <feMerge
+         id="feMerge3653"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3649" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3651" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3827" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3829"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3831">
+        <feMergeNode
+           id="feMergeNode3833"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3835"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3665"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3657" />
+      <feMerge
+         id="feMerge3663"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3659" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3661" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3837" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3839"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3841">
+        <feMergeNode
+           id="feMergeNode3843"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3845"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3675"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3667" />
+      <feMerge
+         id="feMerge3673"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3669" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3671" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3847" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3849"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3851">
+        <feMergeNode
+           id="feMergeNode3853"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3855"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3685"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3677" />
+      <feMerge
+         id="feMerge3683"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3679" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3681" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3857" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3859"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3861">
+        <feMergeNode
+           id="feMergeNode3863"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3865"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3695"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3687" />
+      <feMerge
+         id="feMerge3693"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3689" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3691" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3867" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3869"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3871">
+        <feMergeNode
+           id="feMergeNode3873"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3875"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:label="Flatten Transparency"
+       inkscape:menu="Fill and Transparency"
+       inkscape:menu-tooltip="Adds a white opaque background"
+       style="color-interpolation-filters:sRGB;"
+       id="filter3705"
+       x="-inf"
+       y="0"
+       width="inf"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         id="feComposite3697" />
+      <feMerge
+         id="feMerge3703"
+         result="fbSourceGraphic">
+        <feMergeNode
+           in="result1"
+           id="feMergeNode3699" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode3701" />
+      </feMerge>
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3877" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite3879"
+         operator="arithmetic"
+         k4="1"
+         result="result1"
+         in="fbSourceGraphic" />
+      <feMerge
+         id="feMerge3881">
+        <feMergeNode
+           id="feMergeNode3883"
+           in="result1" />
+        <feMergeNode
+           id="feMergeNode3885"
+           in="fbSourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="namedview3385"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.7251913"
+     inkscape:cx="236.48932"
+     inkscape:cy="512.27862"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g3391">
+    <inkscape:page
+       x="0"
+       y="0"
+       id="page3389"
+       width="529.13385"
+       height="793.70081" />
+    <inkscape:page
+       x="549.13386"
+       y="0"
+       id="page3457"
+       width="529.13386"
+       height="793.70079" />
+  </sodipodi:namedview>
+  <g
+     id="g3391"
+     inkscape:groupmode="layer"
+     inkscape:label="Page 1"
+     transform="matrix(1.3333333,0,0,-1.3333333,0,793.70079)">
+    <text
+       xml:space="preserve"
+       transform="matrix(0.64278761,0.76604444,0.76604444,-0.64278761,70.866142,70.866142)"
+       style="font-variant:normal;font-weight:normal;font-size:75px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#ebebeb;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3535)"
+       id="text3395"><tspan
+         x="0 54.150002 95.849998 158.325 200.02499 237.52499 258.375 283.35001 325.04999 362.54999 379.20001 420.89999"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3393">Demostración</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,82.925197,552.75591)"
+       style="font-variant:normal;font-weight:normal;font-size:10px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3545)"
+       id="text3405"><tspan
+         x="0 7.2199998 10.55 16.110001 18.889999 21.67 28.34 33.900002 38.900002 44.459999 50.02 55.580002 58.360001 65.029999 67.25 72.809998 81.139999 86.699997 88.919998 94.480003 97.260002 100.59 103.37 111.7 117.26 122.82 125.04 130.03999 135.60001 138.38 145.60001 147.82001 150.60001 156.16 158.38 163.38 168.94 171.72 175.05 177.83 186.16 188.94 196.16 198.94 201.72 207.28 212.84 215.62 221.17999 226.74001"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3397">Dra. Susana Ejemplo - Médica Clínica - M.N. 12.345</tspan><tspan
+         x="40.349998 47.57 53.130001 58.689999 63.689999 69.25 71.470001 74.25 79.809998 83.139999 85.360001 90.919998 95.919998 98.699997 105.92 109.25 114.81 117.59 120.37 127.59 133.14999 138.14999 140.37 142.59 144.81 150.37 153.14999 160.92999 164.25999 166.48 172.03999 175.37 180.37 185.92999"
+         y="11.5"
+         sodipodi:role="line"
+         id="tspan3399">Consultorios Dra. Cecilia Grierson</tspan><tspan
+         x="37.200001 43.869999 48.869999 54.43 59.990002 62.209999 67.769997 73.330002 76.110001 81.669998 87.230003 92.790001 98.349998 101.13 103.91 111.13 113.35 118.91 124.47 130.03 135.59 138.37 143.92999 149.49001 152.27 158.94 162.27 167.83 173.39 178.95 181.73 183.95 189.50999"
+         y="23"
+         sodipodi:role="line"
+         id="tspan3401">Avenida 1234, Ciudad de Argentina</tspan><tspan
+         x="-16.75 -10.64 -5.0799999 -2.8599999 -0.079999998 2.7 8.2600002 13.82 19.379999 22.16 27.719999 33.279999 38.84 44.400002 47.73 53.290001 58.849998 64.410004 69.970001 72.75 75.529999 82.199997 85.529999 93.860001 99.419998 101.64 103.86 106.64 109.42 114.42 119.98 125.54 131.10001 133.32001 136.10001 141.66 144.99001 147.21001 152.77 157.77 163.33 166.66 168.88 174.44 177.77 182.77 188.33 193.89 204.03999 209.60001 217.92999 223.49001 225.71001 227.92999 230.71001 235.71001 241.27"
+         y="34.5"
+         sodipodi:role="line"
+         id="tspan3403">Tel: 055 4321-1234, E-mail: conultoriosgrierson@gmail.com</tspan></text>
+    <path
+       d="M 28.346457,481.88976 H 368.50394"
+       style="fill:none;stroke:#000000;stroke-width:0.567;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3555)"
+       id="path3407" />
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,34.015748,456.37795)"
+       style="font-variant:normal;font-weight:normal;font-size:16px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3565)"
+       id="text3411"><tspan
+         x="0 11.552 20.448 24.896"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3409">Rp./</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,85.03937,456.37795)"
+       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3575)"
+       id="text3421"><tspan
+         x="0 8.0039997 12 18.672001 24.672001 28.007999 34.68 41.352001 48.023998 52.02 55.355999 64.692001 71.363998 75.360001 82.031998 85.367996 93.372002 100.044 106.044 108.708 115.38 118.044 121.38 130.04401 136.716 146.71201 153.384 157.38 164.052 167.388 174.06 180.73199 187.40401"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3413">Prestador Obra Social Número 1234</tspan><tspan
+         x="0 9.3360004 16.007999 22.007999 25.344 32.015999 38.015999 44.688 48.023998 56.688 63.360001 66.695999 74.699997 78.695999 85.367996 92.040001 98.711998 105.384 108.72 112.716 116.052 124.716 133.38 136.716 140.052 143.388 150.06 156.73199 160.06799 166.74001 173.412 180.084 183.42 190.092 196.76401"
+         y="16.200001"
+         sodipodi:role="line"
+         id="tspan3415">Gustavo De Prueba - DNI: 12.345.678</tspan><tspan
+         x="0 9.3360004 16.007999 20.004 26.676001 30.011999 38.015999 44.688 50.688 53.352001 60.023998 62.688 66.024002 74.028 77.363998 84.036003 90.708 94.043999 98.040001 101.376 110.04 114.036 120.708 127.38 134.052 140.724 146.724 149.388 156.06 158.724 162.06 165.396 172.06799 178.74001 185.412 192.084 195.42 202.092 208.76401 215.436 222.108 225.444 232.116"
+         y="32.400002"
+         sodipodi:role="line"
+         id="tspan3417">Obra Social P 01 - Credencial: 1234 5678 01</tspan><tspan
+         x="0 7.3319998 9.9960003 13.332 20.004 22.667999 29.34 33.335999 36.672001 43.344002 50.015999 53.352001 60.023998 66.695999 73.367996"
+         y="48.599998"
+         sodipodi:role="line"
+         id="tspan3419">Titular 33 años</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,113.38583,354.33071)"
+       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3585)"
+       id="text3435"><tspan
+         x="0 8.0039997 14.676 18.672001 25.344 31.344 38.015999 41.352001 48.023998 58.02 64.692001 67.356003 70.692001 74.688004 82.692001 89.363998 93.360001 100.032 106.032 112.704 116.04 122.712 132.70799 139.38 145.38"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3423">Paracetamol (ParacetaMax)</tspan><tspan
+         x="0 8.6639996 15.336 25.332001 32.004002 36 38.664001 48.66 51.324001 57.995998 64.667999 70.667999 74.003998 80.003998 83.339996 90.012001"
+         y="16.200001"
+         sodipodi:role="line"
+         id="tspan3425">Comprimidos x 30</tspan><tspan
+         x="0 8.6639996 15.336 22.007999 25.344 28.007999 34.68 41.352001 48.023998 51.360001 54.695999 61.368 64.704002 70.704002 77.375999 80.040001"
+         y="32.400002"
+         sodipodi:role="line"
+         id="tspan3427">Cantidad: 1 caja</tspan><tspan
+         x="0 3.336 10.008 16.68 23.351999 27.348 34.02 37.355999 44.028 50.700001 57.372002 60.708 64.704002 68.040001 74.711998 81.384003 88.056 92.052002 98.723999 106.056 112.728 116.724 120.06 126.732"
+         y="64.800003"
+         sodipodi:role="line"
+         id="tspan3429">Ibuprofeno (IbuproForte)</tspan><tspan
+         x="0 8.6639996 15.336 22.007999 28.007999 34.68 37.344002 44.015999 50.015999 53.352001 60.023998 62.688 69.360001 76.031998 82.704002 89.375999 95.375999 98.711998 104.712 108.048 114.72"
+         y="81"
+         sodipodi:role="line"
+         id="tspan3431">Cápsulas blandas x 10</tspan><tspan
+         x="0 8.6639996 15.336 22.007999 25.344 28.007999 34.68 41.352001 48.023998 51.360001 54.695999 61.368 64.704002 71.375999 74.040001 76.704002 82.704002 86.040001 92.711998"
+         y="97.199997"
+         sodipodi:role="line"
+         id="tspan3433">Cantidad: 1 blister</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,56.692913,93.543307)"
+       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3595)"
+       id="text3443"><tspan
+         x="0 8.6639996 14.664 18 21.336 31.332001 33.995998 40.667999 44.664001 51.335999 58.007999 64.68"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3437">Dx: Migrañas</tspan><tspan
+         x="0 7.3319998 11.328 18 21.336 28.007999 38.004002 40.667999 47.34 54.012001 57.348 64.019997 67.356003 74.028 78.024002 84.695999 87.360001 94.031998 100.704 107.376 114.048 120.72 127.392"
+         y="16.200001"
+         sodipodi:role="line"
+         id="tspan3439">Tratamiento prolongado </tspan><tspan
+         x="0 6.6719999 13.344 16.68 23.351999 26.688 33.360001 40.032001 46.703999"
+         y="32.400002"
+         sodipodi:role="line"
+         id="tspan3441">23/8/2022</tspan></text>
+    <g
+       id="g3445"
+       transform="matrix(113.38583,0,0,113.38583,226.77165,93.543307)"
+       style="filter:url(#filter3605)">
+      <image
+         width="1"
+         height="1"
+         style="image-rendering:optimizeSpeed"
+         preserveAspectRatio="none"
+         transform="matrix(1,0,0,-1,0,1)"
+         xlink:href="data:image/png;base64,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"
+         mask="url(#mask3447)"
+         id="image3451" />
+    </g>
+    <path
+       d="M 396.85039,595.27559 V 0"
+       style="fill:none;stroke:#000000;stroke-width:0.567;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3615)"
+       id="path3453" />
+    <path
+       d="M 0,0 H 396.85039 V -595.27559 H 0 Z"
+       style="fill:none;stroke:#000000;stroke-width:0.567;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       id="path3455" />
+  </g>
+  <g
+     id="g3459"
+     inkscape:groupmode="layer"
+     inkscape:label="Page 2"
+     transform="matrix(1.3333333,0,0,-1.3333333,549.13386,793.70079)">
+    <text
+       xml:space="preserve"
+       transform="matrix(0.64278761,0.76604444,0.76604444,-0.64278761,70.866142,70.866142)"
+       style="font-variant:normal;font-weight:normal;font-size:75px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#ebebeb;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3625)"
+       id="text3463"><tspan
+         x="0 54.150002 95.849998 158.325 200.02499 237.52499 258.375 283.35001 325.04999 362.54999 379.20001 420.89999"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3461">Demostración</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,82.925197,552.75591)"
+       style="font-variant:normal;font-weight:normal;font-size:10px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3635)"
+       id="text3473"><tspan
+         x="0 7.2199998 10.55 16.110001 18.889999 21.67 28.34 33.900002 38.900002 44.459999 50.02 55.580002 58.360001 65.029999 67.25 72.809998 81.139999 86.699997 88.919998 94.480003 97.260002 100.59 103.37 111.7 117.26 122.82 125.04 130.03999 135.60001 138.38 145.60001 147.82001 150.60001 156.16 158.38 163.38 168.94 171.72 175.05 177.83 186.16 188.94 196.16 198.94 201.72 207.28 212.84 215.62 221.17999 226.74001"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3465">Dra. Susana Ejemplo - Médica Clínica - M.N. 12.345</tspan><tspan
+         x="40.349998 47.57 53.130001 58.689999 63.689999 69.25 71.470001 74.25 79.809998 83.139999 85.360001 90.919998 95.919998 98.699997 105.92 109.25 114.81 117.59 120.37 127.59 133.14999 138.14999 140.37 142.59 144.81 150.37 153.14999 160.92999 164.25999 166.48 172.03999 175.37 180.37 185.92999"
+         y="11.5"
+         sodipodi:role="line"
+         id="tspan3467">Consultorios Dra. Cecilia Grierson</tspan><tspan
+         x="37.200001 43.869999 48.869999 54.43 59.990002 62.209999 67.769997 73.330002 76.110001 81.669998 87.230003 92.790001 98.349998 101.13 103.91 111.13 113.35 118.91 124.47 130.03 135.59 138.37 143.92999 149.49001 152.27 158.94 162.27 167.83 173.39 178.95 181.73 183.95 189.50999"
+         y="23"
+         sodipodi:role="line"
+         id="tspan3469">Avenida 1234, Ciudad de Argentina</tspan><tspan
+         x="-16.75 -10.64 -5.0799999 -2.8599999 -0.079999998 2.7 8.2600002 13.82 19.379999 22.16 27.719999 33.279999 38.84 44.400002 47.73 53.290001 58.849998 64.410004 69.970001 72.75 75.529999 82.199997 85.529999 93.860001 99.419998 101.64 103.86 106.64 109.42 114.42 119.98 125.54 131.10001 133.32001 136.10001 141.66 144.99001 147.21001 152.77 157.77 163.33 166.66 168.88 174.44 177.77 182.77 188.33 193.89 204.03999 209.60001 217.92999 223.49001 225.71001 227.92999 230.71001 235.71001 241.27"
+         y="34.5"
+         sodipodi:role="line"
+         id="tspan3471">Tel: 055 4321-1234, E-mail: conultoriosgrierson@gmail.com</tspan></text>
+    <path
+       d="M 28.346457,481.88976 H 368.50394"
+       style="fill:none;stroke:#000000;stroke-width:0.567;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3645)"
+       id="path3475" />
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,34.015748,456.37795)"
+       style="font-variant:normal;font-weight:normal;font-size:16px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3655)"
+       id="text3479"><tspan
+         x="0 11.552 20.448 24.896"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3477">Rp./</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,85.03937,456.37795)"
+       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3665)"
+       id="text3491"><tspan
+         x="0 8.6639996 17.327999 25.332001 32.004002 35.34 44.004002 52.007999 60.672001"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3481">DUPLICADO</tspan><tspan
+         x="0 8.0039997 12 18.672001 24.672001 28.007999 34.68 41.352001 48.023998 52.02 55.355999 64.692001 71.363998 75.360001 82.031998 85.367996 93.372002 100.044 106.044 108.708 115.38 118.044 121.38 130.04401 136.716 146.71201 153.384 157.38 164.052 167.388 174.06 180.73199 187.40401"
+         y="16.200001"
+         sodipodi:role="line"
+         id="tspan3483">Prestador Obra Social Número 1234</tspan><tspan
+         x="0 9.3360004 16.007999 22.007999 25.344 32.015999 38.015999 44.688 48.023998 56.688 63.360001 66.695999 74.699997 78.695999 85.367996 92.040001 98.711998 105.384 108.72 112.716 116.052 124.716 133.38 136.716 140.052 143.388 150.06 156.73199 160.06799 166.74001 173.412 180.084 183.42 190.092 196.76401"
+         y="32.400002"
+         sodipodi:role="line"
+         id="tspan3485">Gustavo De Prueba - DNI: 12.345.678</tspan><tspan
+         x="0 9.3360004 16.007999 20.004 26.676001 30.011999 38.015999 44.688 50.688 53.352001 60.023998 62.688 66.024002 74.028 77.363998 84.036003 90.708 94.043999 98.040001 101.376 110.04 114.036 120.708 127.38 134.052 140.724 146.724 149.388 156.06 158.724 162.06 165.396 172.06799 178.74001 185.412 192.084 195.42 202.092 208.76401 215.436 222.108 225.444 232.116"
+         y="48.599998"
+         sodipodi:role="line"
+         id="tspan3487">Obra Social P 01 - Credencial: 1234 5678 01</tspan><tspan
+         x="0 7.3319998 9.9960003 13.332 20.004 22.667999 29.34 33.335999 36.672001 43.344002 50.015999 53.352001 60.023998 66.695999 73.367996"
+         y="64.800003"
+         sodipodi:role="line"
+         id="tspan3489">Titular 33 años</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,113.38583,337.32283)"
+       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3675)"
+       id="text3505"><tspan
+         x="0 8.0039997 14.676 18.672001 25.344 31.344 38.015999 41.352001 48.023998 58.02 64.692001 67.356003 70.692001 74.688004 82.692001 89.363998 93.360001 100.032 106.032 112.704 116.04 122.712 132.70799 139.38 145.38"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3493">Paracetamol (ParacetaMax)</tspan><tspan
+         x="0 8.6639996 15.336 25.332001 32.004002 36 38.664001 48.66 51.324001 57.995998 64.667999 70.667999 74.003998 80.003998 83.339996 90.012001"
+         y="16.200001"
+         sodipodi:role="line"
+         id="tspan3495">Comprimidos x 30</tspan><tspan
+         x="0 8.6639996 15.336 22.007999 25.344 28.007999 34.68 41.352001 48.023998 51.360001 54.695999 61.368 64.704002 70.704002 77.375999 80.040001"
+         y="32.400002"
+         sodipodi:role="line"
+         id="tspan3497">Cantidad: 1 caja</tspan><tspan
+         x="0 3.336 10.008 16.68 23.351999 27.348 34.02 37.355999 44.028 50.700001 57.372002 60.708 64.704002 68.040001 74.711998 81.384003 88.056 92.052002 98.723999 106.056 112.728 116.724 120.06 126.732"
+         y="64.800003"
+         sodipodi:role="line"
+         id="tspan3499">Ibuprofeno (IbuproForte)</tspan><tspan
+         x="0 8.6639996 15.336 22.007999 28.007999 34.68 37.344002 44.015999 50.015999 53.352001 60.023998 62.688 69.360001 76.031998 82.704002 89.375999 95.375999 98.711998 104.712 108.048 114.72"
+         y="81"
+         sodipodi:role="line"
+         id="tspan3501">Cápsulas blandas x 10</tspan><tspan
+         x="0 8.6639996 15.336 22.007999 25.344 28.007999 34.68 41.352001 48.023998 51.360001 54.695999 61.368 64.704002 71.375999 74.040001 76.704002 82.704002 86.040001 92.711998"
+         y="97.199997"
+         sodipodi:role="line"
+         id="tspan3503">Cantidad: 1 blister</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(1,0,0,-1,56.692913,93.543307)"
+       style="font-variant:normal;font-weight:normal;font-size:12px;font-family:Helvetica;-inkscape-font-specification:Helvetica;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3685)"
+       id="text3513"><tspan
+         x="0 8.6639996 14.664 18 21.336 31.332001 33.995998 40.667999 44.664001 51.335999 58.007999 64.68"
+         y="0"
+         sodipodi:role="line"
+         id="tspan3507">Dx: Migrañas</tspan><tspan
+         x="0 7.3319998 11.328 18 21.336 28.007999 38.004002 40.667999 47.34 54.012001 57.348 64.019997 67.356003 74.028 78.024002 84.695999 87.360001 94.031998 100.704 107.376 114.048 120.72 127.392"
+         y="16.200001"
+         sodipodi:role="line"
+         id="tspan3509">Tratamiento prolongado </tspan><tspan
+         x="0 6.6719999 13.344 16.68 23.351999 26.688 33.360001 40.032001 46.703999"
+         y="32.400002"
+         sodipodi:role="line"
+         id="tspan3511">23/8/2022</tspan></text>
+    <g
+       id="g3515"
+       transform="matrix(113.38583,0,0,113.38583,226.77165,93.543307)"
+       style="filter:url(#filter3695)">
+      <image
+         width="1"
+         height="1"
+         style="image-rendering:optimizeSpeed"
+         preserveAspectRatio="none"
+         transform="matrix(1,0,0,-1,0,1)"
+         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACGCAYAAACYCsWCAAAABHNCSVQICAgIfAhkiAAAGGVJREFUeJztnV1sHMd9wH8ze0fJciw5Mow2RZ/aojXcAE2LJJZI3h2pyI7d2I7tNEkToOhr3vqYpwJF0Yc+FOhbHwqkQFAgtWKJPJKSvy1RpCTLaZsEaJK2aB4apHZcO01iKZJI3u1OH2Z2d2Zub/l1pETq/wMk3sfuzu7e/Of/ObMKMAiCUIm+3ScgCHcyIiCCUIMIiCDUIAIiCDWIgAhCDSIgglCDCIgg1CACIgg1iIAIQg0iIIJQQ+N2n4Ag7AidWTDKvtbA4jNbOoxoEGH/MTUbvs8MtGert10H0SDC/uHxc3BzDTIVfaFAxZ9tDNEgwv5gYg5u9YAqQVDQaG7psKJBhP2Bopy4YQjlJDWw9IdbOqxoEGHvMzEHypvWpLy/RsHlrTnoIAIi7HUmuqBNhWVlrHBs0ffI8RWTIOwtWmcAbYUglwPfzDIammPQX4PeGlz9o003IRpEqKbdhcn5230W65B4GkJFQ722Zle6CiqDZgPaZzbdggiIMEina/+qO9i4GH+dwK4y/rlq+PG77vzd58pYQdkkEsUSSj5+Du5Zc53NWd8ffQG+9/ndab8969pV1n9Yfnr4tsmtUoBz2VAAGpaehtYsYThLAcmmT0k0iFByqO9MFs+gv3+3xtBvl6UhA3HaiMlzoNLyvcIKS4b1NVoz0XW4jdTmcyGiQe4GphZAa0BDlsLKGozFY2OFo0sDLj21O+fY/hHFCRhgeUi7x98A9Uv7WplSqJSChgbtd2nP7NLA4uavRQRkvzP+ApgM+hlFh4mFw2SgksiOV6B2ycA40YW+n8cwNkiAgewAXPKSfI0bnmnlaQjVANNnQMpzTWIObunUxMTar7TnrU3faLqOP8ThVoCOo/0GaMDSZ3b8NJl6CfoV5lD+V63CH3zDvp180Z5bEMrFmlaLT3qX4Ew0o91nBi5+ekunJxpkPzJ5inXteIBU2yEyiO4o+OGP4J0/20R7c6AzChOu34OrX9zYvsbTbFUoBd/+sjOtPO2hsPv1E7jyNLROR8d1/xlA9Td+LREiIPsR3WRQIyhYikouWt1oRwW9I5sTjgBjTbWrz9m37XkgcyO9gUvPVuwSdV6lQlMvf9m4GYWdDTQTF7E6ZdstdnBRMG2bpz+2xesRE2v/Mf1NQs1hQPcHhWPqBTvqF9aMK8t4c2pz7Y0v2FKP4kCuo37yCqUfQLU/U4RiKbdLk9K3MAZSYOIl7AvPtsoSWDts3/bus8cv3I8UtNteAZdrwsXrIBpk33EAO2w6tIHFijzG4uftxKLcFFEKFqOO1J5joJP72xw7C0kcbu1bzaTeJ+z8kbk3vuCCA14uIwV0rxQmo4EE9Eq5f37ITMHlKXj0a7C6Vn6eakiyclt9aPDaN4EIyH5iahH6vyhrk5SBxeeGb68Y1Cw5x5+3I3gQFIp8hWY/7PjB1xmBs70UCV/SK80iBdCE5g3Ixgg0RdIL21AKrjfhOy6AsHq0dLdyAc3fKAMXHx16+RtBTKz9RPbzsEMvOpu/3YXOHEz/W7j9hQqfAGzYdezAoI9vvKmrnTOloxyjiv+subQWff/o11ynd/tmykbMjJfIUwqSMQZOYumzpXC05r12sFNr/QSh3rpzniMaZL8QONyu87X9zwyY98u37a4N7y5+NjxOe85OMDIqCoQpIIOsB52zYHrV5xFPXEo1XI0SdCtHQ63QWLOC54dpr12H++4rNcNAMSJAD1uwiPNbPAExWbVpuUmk3H2vM9X15mDXhUvz0Zqyc+aOee5XTLpaqGF2hTJw8VmYegXSW54GGRJOzjRcikyrqZchW/E+MJAoe17F6WunDZyJl3f6i96xxt+A5nW3jwKTlOFcA/Q0XN26c54jGmSvozYxxvWT0oEFO+r6nS7o517HN8DPjsD3p+37bCWMflU1Pyw3mfY8M1CVIWC/bD3TttYq/ygzsBxpuuSaV2bitvfbHYFwgAjI3mbqJchWh38fO+CTc+H7xCu/8M2xWObWbsH33bFa3fDLYbJpGAyvHj8PXA83ShvQyH0FZUtLzJoLHbt/y1Gg4fgCNuTlNlFZmTvJFFyKhGkbiJO+l1l8wv71O2mWWcEYSAqecZ0ux8CFx+zLTiQ4Jnrx1pfs3+Nnw/qngCiaZSoqZxvXwmRfqqGZaxQFWcNm4bXTclrB4TQ8xuQ/QCP1zERK4aipqNkqIiB7meMLoQuQAZcqwronvxYl6kwZ4en4yTovrIvLaPuC1li1QlYpJH7HH4PLUR3XRDfKhWhIvJPPDFz6DDTTMkydZHA2drSPekIRn4eCy6PTHu4shT3JZNd1JvfeaLg0JKex+uEoX+GShxOnw1G38CeMTYjHpk0uZHUzDZWCK9ESO+Nd19OMJ9DOCc8/aADTs2WPNAbWonaOvRpqjqCcXQ/6KSNAfJCN0uraH0WbMr+wVfJS7qVtHEcZQJfJvGxIvVF7EcwvymgPBrIb9jtDhZNtnJn2ufA4nZka86rcFX04/Oz4aRul8svPM7/EJd8xteUjheuhK2q3mqBuVrcbVwGMCBGQjdCeK+3crejc6VnrPBaJrPy4s1sTklacpFNw6fHqbdW18rUxttbpyp/Y90kjFA7jhCMuC5k4VS0cBieo+aieAV6upfVNe92BxsnsPcw/0gouPGMTj77vU6UNm9cHP0PXT83dJiIg6zHVdR0b+0MfPbK5/afPlUk1v+Nlav0ReRjxdFI9ZCrp8ZfA+FEuA1dc0q4zb5NpwXGBS5HmaJ0C1Qjbw3+bh4KNLXVf+kK5TbNpc3kxxarrCi44s8h488XTYdW3WehzaSrW4R0tuysgQSjRqfal0duNI6M1E46w/T78tGoUq+DkKVg9YOP+VSi2Fo6cesHmCYrjKLgwZFnNRhQCzlzhXutlwEvWKQMfGoNzkWP9+fPw3vVSe/rxX4PVNjovLFRw2XOo2zN2ItRA/3WfqYad5ASuqtc7l9iHKUgoMorKwMExeHlnJ3XtnoBMuNGscCoze1Mn5wezrXcCrdOD9rl2JklnDi7WdO5OF3qmonNAUTKxFYfy038Lt5qUHdXA0Xuqty1yHl7nTvITWo18knRQODpn4b1rkZbzw6mNMHPdd13p2CkYq6ih8o+RNuCSE47xqGKYbMh+YKcFZ8MLLHeA3YlidV6DZDW6Z8qq2Acf3JVT2DRaM2hWuNBnXaz90bP2b1XHyl/3tnjbb/5WGWUCa/PPDplK6mei83aXHoOpswQl5pmG5WjFwdY5MGnYVnQodD88/tUnYXomFI7KDHtiBSSn2SjzM5mC/hCBB7cAtbKWSGtrz/vYLLsU5q2IPIC9gbPHd+cUNsP086FNHGDgwE+qvzp2FlbSsGP4/kJuP8fFexth6jU7CajolAYufq562xPfcCFZL7+Rj7qB32GgFxkRn5qzczKCEKophUoZm/nOxw8FNA7AE98oo2L+tfptAZj74c0nyo+zNYKVSS7XrMI+dY5wyu3Os/Mm1kSFMwju5qaDn+80UzOlDa/cDx/PmUgPMlRN6B689pXBz090bRa4iOi442dRT+l7r0/MWm2SOG16vkZwzK1IEdXcu96h0InOXL35w17AAOwg8JbXISdnB53qPFKVAT/twQ++AJ1zYNYoJGSlB+m9lJotSiYaA/0VePNL4bG/9NfwDoEcD+Xxeff8j5zdGdt3XkB0iud4EIymSY29OWo6885sMJ4JrwaFtD3nZWqjzq0yKoeuE11XGuQc0My4/b1poAqgAZed7d2et7Y/rvON1az6d/wNML8s35ts0CwqrjMSglTBZRdZesCbH2GAzEW/xk+7B8z4WUPsNazeguUvh230M8+fMdCMtI1/2wyQHIblinD2//4Owf38ycerr+ljX4ebXgQrv5e7wM62Ej8XzguCkCm4ubW1iuyxu+Xxqsqqi+3mnd/gOvdAaNUT0omzQBpFbRy577EclT608vkTePs0Qa2FI2KmYPnJqGmXIzAGXq2JxjRuUJooNbbF+It2vobfOfO6pmOnIOtDkpTHuvK4vY9VywIp4EgDFiLhAKtFjR4cKwzuPvlRtgwWP1V9vpku77Ux8JGr8MNom8kzZaQsb6+fbuuZH5thZ/WUSgjvYnRHr0YdZiNMnyuL64pkk4HHLgxuO36hstli56aGRTe6dubc/OpKz9L+i0svwOUzvPcN7Wx4FXZU5Y1FUwtlOyqpHl1zWl2KZXkMVp6rzgNcIMTXAAksu4509YvWIbaN2mPlka44MWg0rDwIC0NMvrTqhiqrkQLfzTC0LOXkWQac+fiw7TnnS3lma6Lg8hDfawfYYUMuMqGKG6HLHECnC5+K1jRqd63vEjN9zpolpuKm926E70/MQeMDgpk48W5veFpHp+GPqSLB7lXkPya75QitsKNzPx1sR5lyEbb2QmlaVc6S85hYiGx5ZTPhVcQVuSj4v98IP8r8xRxUWN2rAmmGtyaGn9eVZ5156t4vPWPzWarh3UN3bcMCCa8/aTWvf77+PZ+oEl6zlfWnt8XOmVjjC9WOpFF2An8nN308h64z69Szu3ETC3DZH8U84cj/5qHXvmdft6OlLHOKPmDCH+fYTMWoGNnVV/80/Lp1FshDncbmAZpeB/TNyVwDnJgrlwA12v6rW/vWZK7ildJ8GaZ1g0lH2EHo33832miIeWYMfHcarm2iSqAqyalXKPIrxtRrRijN3uJ3UV4y2deECpqH4Pz2FmDYCjsjIA//HST+OqlgO4UnCL52SXG1OK5XKWxSbjkK+ZniP4oHpIBtJ0+8TUTaqPDqovDmFWemPHQKmlHHybTt1Pmu7/1e+P30nLXni7CmsR0582x543Y2xhb+tefc99451QnH5D8N6vdhdvejfw+rUQBEVXR238kNfCazOeGoPF9vIpUxdvbieuSl81EspDxfBek9cOWx7Z3bNtgZAXng1yk6pP9jGIPVAt4vb4wdvQPTVUHz/sHjpn4VqDfC3Psf9u/JOZvBDn78SDhM0DvgwbFw5O2PQXPNC+gk8APPVGnPeh09Jy+B8Nt119bz7P7ME+71Cuy0F2o2Ksy856NshjVrVjL7Jr8MncLF9uAxl58pq5JHmY1uzQyMhby5gVzP0nPQWgC8GYX5IKjcurq3UThgJwRkwpUO5H1TAff3YM5FfyZmGLibA2sraTg/Hh53fIagchT3snkAXv4qdBagF5k4zQR6/dDON5QFeZNd73DGRkty+VHY9ppRkjOQDWVH+bRiMMg3vvqk9Q/yXJBO1l+GP1iNxB144LO8PW21tW/aDKv/gtJpHxUT0Xn5a2lthPwxB+0zQDL689smoxeQsQRSr0YnM6VwQBmyKyITSRTpMNXPhmgoKu/860/AJ54nWAQ510omerC8MaU/0O6GnVlpO1LrXnnuRsPr3iLMU241QN8PypQnGLGgN2wQIt8+MXBhHeFouUWa/eRq5aPDnJOdeeHkopz9j+vbGCVVYZ71fI8q4vkndwijF5Ascsz9m9WKnmddlJF72ycVo18+n6IY2VW5ntOj87DapwybAol2TngcvlThJBzlvTAHgJuUU1MVrHm/fmc2vDblTLfCL0rC69GZSxjm5lZmI1zr0dcwtpEEqil9Jf+zK7v0wBtwfocqf9Oq6OIeZ7QCMnXGhRJz7eD9eB0X9cnvYeF3eNGoVIfzCcAm+tKoY/nl3n3PXlWAaloHWhH6G0qVkZeTXVtSkZ9LpuyEo46nVZSCt56CiVchuVnx43sCqLU9R99UTJUNpea79fvwZnRtVTSvDZqEfjjVpzUXbte/b/3jj5og72Kq58TvYUYrIGmzFAqlKPTv+DLws/LHdgOu1xtdB4xyGZ0F7Cgd5QKaruJz+pthuFZpoBf5Aa4Z5bL246/aZWwKLzyxWfjWi9j6IreDUdBZhOyXZbt+BCgwa5zZla81m0e3DBSLrW0U0wS9Zo+VNWD5iert4iV8SGzEZ7eY6pYpJsW+FA4YZaKwFYVuDZAccK1c8+x2XKf2t3U+wyXPdm51sXmUyOkzwBsn4TMv2M5UxNDdwyCKw/raIwN9A06es8+Z8LWKcbPX9KrX6RUsPWUd9HzOQ9GOf9HGaszl56ARjzXKaqbNCAfAmlu1Y/EpWBoiHK0zZRg6PzfVgG/VJPdGSeuVcNBSbM3v2AOMUINk9kfKe1AGnH8CHlkE9UG5mVGD2VCjwuVaHnE1URiK5V3ykarnfpgPEm8FDEpzpjBJIjWSNm2dUtCuhuXHYfofS2cbwCS2tLoXr7rsoYCxHrzmzCbftCyOP3z3obx1bP1tGr2o4lgPF6ZR84lZUKuhyVlZerI/GJ2AKK8ITlHa+2M/J5wjUNFr/NHo+IJdGMwvD1EuFGwUNHEjqC6/B4qsfa7u/TY1XvTJUwVLS/Zldp/XmY2LDvXK97nJVF4sHGzAK55PsJ0VSjZLeqB8bRh8tMBOctD3Md2/utmVe5zRmFidhXDwVG4udKdLMG1VVwmHKRcxe+plOOBqogoLyS9Wcx28eNyWIqgJwlhBCEouxjzhDcJlwN+U+5U7UCY5PT/K/xoDr+zCAy6r6MyG15fUaLlRc3LBC9PjhOPOyluMmu0LyNSLdvTObX+lgXvtMpWpN9IYqCzVzhrWhp88A9dXyr6qgIbLEAd4JSwD/ddEP6AB1Rtcbkcp0M6h7Zymchqtws6RUE0GCuaqBH03yJ8IledcKvMjO8Qj87CWlr+hNrC4v4UDRmFi9Ves/Z93oiyzZRSt07ZzAUGs3EfpshhR6VAWtIK1zM1fcMcw/dCUw9M0xtj9G55z7od5gwdDau/JQ0nogCvsRK4LXkSm3d3VhQIqObkQ5VGcpCxuIHS8XU7MuyJL7P1J0zs2sTdqRmBieSaQwZYKTJ6q7shxNCpfer8zH43S2q6XlMQLAHiVvvlImvsV+oDdPq6Tiq0nk9kIVc7FZ+GB+8L2L0ThytstHOAGAD+knQ0vJR8V9z1iS0BSb6mdtD+4dtY+ZnsapPMqZF6tUq7ydb40DRTDcqxAdB+O/wuMvU1ZVuHMhotP2+WAjCdYA76Fd6x//Qu48R3QD8JvfwWOPmxDzLlWSqBYqrNqstHMya1d/27xsa/bETxL4da78OOX4L1zO9umPgKNQ7auK0m8YMltMi9vE9sTkOxm5Pf27IJhcUFhcE+dE5w2oPm2Z/o4/yFf9zZbdfOksaZSPteZ6FhZ0woHQPY+/Px78O5FuPkOrP0QfvVzQAqNe+GdHe5UO8XhI+7aM3jvLXjvtZ1t75EXYe0/7fNDlFsL7J//HFa+t7Pt3oEMdN8NMzEfLgcDoA6A6bnRflgruTbxEoD5nGh/dG+7x4GBK0uJTlMpoAEXb1M0abdozVAsHXTzHfjOX0L67s62efizcOR+uPZfcOjX4CfxHJu7h21oEO8xvoUW6A3Jc8RvotDstVtw+J5y1XOg9D2Me342odAdOQrzra2f/l7g0O8TPNfjfy7svHAAXJuDfM3rD2q33Pds3EnPV7ObnHF7eulwo2ypQQqVFZ0DiyR7JSBLz8K9HyKqm6Co2lUKVDoYit3vwjH2m/CRjveBgfcv3LbTuVvZmAZpz5SvjQnL1vMq2S//FbydVfsJ8aoZACRekslfOyviTogg7ToNePAR+PBD5Ue9HqQ/vX2ndJeyvoDEK7Irby64AtY+bF+//dFB4ciMfc5DPBvOEJoOmXH1WZGQ7OMShqE88DF46KuQuESm5q5IyN2p1Dvpxy7A2HXK0gtdOtQAplEuhlbMnFP2bzOB816N0HrJtpYrobgrNYaj4xbaK0rr9Y49OUnYGPUapHk9ikj5wqHCVbqzHsWDVpQOhQPW7/j7tFx6Q0wuWK2c3+u85uzuSjnckdRrkJZ7HnUcss0LBhejNZomn4exw3C+ZoVuIeRDn4BfGYcHPgoou/7Tf5+Bt8/c7jMTWE9APnkKDh6IPlR39lOh9iIHH7ZlMje+e7vPRIioD/N+64uDEah9ODH/trPyAxGOO5StZ9IF4S5gl54wJQh7ExEQQahBBEQQahABEYQaREAEoQYREEGoQQREEGoQARGEGkRABKEGERBBqEEERBBqEAERhBpEQAShBhEQQahBBEQQahABEYQaREAEoQYREEGoQQREEGoQARGEGkRABKEGERBBqEEERBBqEAERhBpEQAShBhEQQahBBEQQahABEYQaREAEoQYREEGoQQREEGoQARGEGkRABKEGERBBqEEERBBqEAERhBpEQAShBhEQQahBBEQQahABEYQaREAEoQYREEGoQQREEGoQARGEGkRABKEGERBBqEEERBBqEAERhBpEQAShBhEQQahBBEQQahABEYQaREAEoQYREEGoQQREEGr4f/mrd3fesdQDAAAAAElFTkSuQmCC"
+         mask="url(#mask3517)"
+         id="image3521" />
+    </g>
+    <path
+       d="M 396.85039,595.27559 V 0"
+       style="fill:none;stroke:#000000;stroke-width:0.567;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3705)"
+       id="path3523" />
+    <path
+       d="M 0,0 H 396.85039 V -595.27559 H 0 Z"
+       style="fill:none;stroke:#000000;stroke-width:0.567;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       id="path3525" />
+  </g>
+</svg>
