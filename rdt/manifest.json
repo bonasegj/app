@@ -20,7 +20,7 @@
       "purpose": "any"
     }
   ],
-  "start_url": "/?utm_source=installed",
+  "start_url": "./?utm_source=installed",
   "scope": "/",
   "display": "standalone",
   "theme_color": "#ffffff",
