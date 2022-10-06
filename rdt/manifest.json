@@ -31,7 +31,12 @@
     "params": {
       "title": "title",
       "text": "text",
-      "url": "url"
+      "url": "url",
+      "files": [
+        {
+          "name": "contacts",
+          "accept": ["text/vcard", ".vcf"]
+        }]
     }
   }
 }
