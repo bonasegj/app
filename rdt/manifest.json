@@ -21,13 +21,13 @@
     }
   ],
   "start_url": "./",
-  "scope": ".",
+  "scope": "https://",
   "display": "standalone",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "share_target": {
     "action": "/",
-    "method": "GET",
+    "method": "POST",
     "params": {
       "title": "title",
       "text": "text",
