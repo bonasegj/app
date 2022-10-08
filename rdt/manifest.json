@@ -26,7 +26,7 @@
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "share_target": {
-    "action": "./_share",
+    "action": "./",
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
@@ -36,7 +36,7 @@
       "files": [
         {
           "name": "contacts",
-          "accept": ["text/vcard", ".vcf"]
+          "accept": ["text/vcard", "*.vcf"]
         }]
     }
   }
