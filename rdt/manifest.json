@@ -20,13 +20,13 @@
       "purpose": "any"
     }
   ],
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "share_target": {
-    "action": "/_share",
+    "action": "./_share",
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
