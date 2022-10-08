@@ -21,12 +21,12 @@
     }
   ],
   "start_url": "./",
-  "scope": "./",
+  "scope": "/",
   "display": "standalone",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "share_target": {
-    "action": "./",
+    "action": "/_share",
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
