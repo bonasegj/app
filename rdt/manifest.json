@@ -52,7 +52,7 @@
       "files": [
         {
           "name": "contacts",
-          "accept": ["text/*", ".vcf"]
+          "accept": ["text/plain","text/vcard","text/x-vcard",".txt",".vcf"]
         }]
     }
   }
