@@ -6,11 +6,11 @@ if(!('serviceWorker' in navigator)) {
       .register('./nohost-sw.js') // see configuration options below
       .catch(err => {
         console.error(`unable to register nohost service worker: ${err.message}`);
-      });
+      })};
     var Filer = require('filer');  
     const fs = Filer.fs;
     fs.writeFile("/The Bridge.txt", "hello world!", function (err) {
     if (err) console.error(err);
-  })
+  });
 </script>
   </html>
