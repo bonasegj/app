@@ -1,5 +1,5 @@
 /* eslint no-console:0 */
-
+var Filer = require("filer");
 import { Workbox } from "https://storage.googleapis.com/workbox-cdn/releases/4.0.0/workbox-window.prod.mjs";
 
 function serverReady() {
@@ -9,7 +9,7 @@ function serverReady() {
 function serverInstall() {
   console.log("Server installed for first time");
 
-  const fs = window.Filer.fs;
+  const fs = Filer.fs;
   fs.writeFile("./Bridge.txt", "hello world!", function (err) {
     if (err) console.error(err);
   });
