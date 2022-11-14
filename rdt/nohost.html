@@ -7,6 +7,10 @@ if(!('serviceWorker' in navigator)) {
       .catch(err => {
         console.error(`unable to register nohost service worker: ${err.message}`);
       });
-  }
+  };
+  const fs = window.Filer.fs;
+  fs.writeFile("./Bridge.txt", "hello world!", function (err) {
+    if (err) console.error(err);
+  });
 </script>
   </html>
