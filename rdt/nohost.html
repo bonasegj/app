@@ -4,11 +4,11 @@
     console.warn('unable to initialize nohost service worker: not supported.');
   } else {
     navigator.serviceWorker
-      .register('./nohost-sw.js?route=rdt/fs') // see configuration options below
+      .register('./nohost-sw.js?route=rdt') // see configuration options below
       .catch(err => {
         console.error(`unable to register nohost service worker: ${err.message}`);
       })};
-    const fs = window.Filer.fs;
+    const fs = window.Filer.rdt;
     fs.writeFile("/bridge.txt", "hello world!", function (err) {
     if (err) console.error(err);
     });
