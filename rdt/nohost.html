@@ -1,13 +1,12 @@
-<!doctype HTML>
-<html>
-    <head>
-        <title>nohost</title>
-    </head>
-    <body>
-        <p>Browse filesystem at <a href="/fs">/fs</a></p>
-        <!-- Pull in Filer so we can write some files -->
-        <script src="https://unpkg.com/filer/dist/filer.min.js"></script>
-        <!-- NOTE: use of module here to use workbox-window -->
-        <script type="module" src="nohost.js"></script>
-    </body>
-</html>
+<!DOCTYPE html><html><script>
+if(!('serviceWorker' in navigator)) {
+    console.warn('unable to initialize nohost service worker: not supported.');
+  } else {
+    navigator.serviceWorker
+      .register('./nohost-sw.js') // see configuration options below
+      .catch(err => {
+        console.error(`unable to register nohost service worker: ${err.message}`);
+      });
+  }
+</script>
+  </html>
