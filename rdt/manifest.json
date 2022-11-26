@@ -39,13 +39,6 @@
       "description": "Hacer recetas con los datos de los pacientes",
       "url": "./#/receta",
       "icons": [{ "src": "assets/icons/document.png", "sizes": "512x512" }]
-    },
-    {
-      "name": "Carpeta descargas",
-      "short_name": "Descargas",
-      "description": "Ir a la carpeta de descargas",
-      "url": "intent:#Intent;action=intent.android.action.VIEW_DOWNLOADS;end",
-      "icons": [{ "src": "assets/icons/document.png", "sizes": "512x512" }]
     }
   ],
   "share_target": {
