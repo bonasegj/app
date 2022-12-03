@@ -1,6 +1,0 @@
-
-<!DOCTYPE html>
-<html><body>
-<a id="a" href="assets/images/receta.pdf" download="getter.pdf" ></a>
-<script>document.getElementById("a").click();window.location.replace("https://localhost:3123/assets/images/receta.pdf")</script>
-</body></html>
