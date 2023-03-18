@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<button onclick="register()">Register</button>
+<button onclick="login()">Login</button>
+
+
+<script type="module">
+import { client } from '../dist/webauthn.min.js'
+
+window.register = async function() {
+	console.log('Registering...')
+	let res = client.register('MyUsername', 'random-challenge-base64-encoded')
+	console.log(res)
+}
+
+window.login = async function() {
+	console.log('Authenticating...')
+	let res = client.authenticate([], 'random-challenge-base64-encoded')
+	console.log(res)
+}
+
+</script>
+</body>
+</html>
