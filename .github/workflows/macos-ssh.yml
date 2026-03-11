@@ -43,21 +43,37 @@ jobs:
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
           nohup ngrok tcp 22 --log stdout > ngrok.log 2>&1 &
-          sleep 8
-          cat ngrok.log
           
+      - name: Get tunnel info
+        run: |
+          sleep 10
+          curl -s http://127.0.0.1:4040/api/tunnels | tee tunnels.json   
+      
       - name: Print SSH command
         run: |
           python3 - <<'PY'
-          import json
-          with open("tunnels.json","r",encoding="utf-8") as f:
-              data=json.load(f)
-          url=data["tunnels"][0]["public_url"]   # tcp://host:port
-          hostport=url.replace("tcp://","")
-          host, port = hostport.split(":")
-          print(f"ssh runner@{host} -p {port}")
+          import json, os, sys
+
+          if not os.path.exists("tunnels.json"):
+            print("tunnels.json not found")
+            sys.exit(1)
+
+          data=json.load(open("tunnels.json"))
+
+          for t in data.get("tunnels",[]):
+            url=t.get("public_url","")
+          if url.startswith("tcp://"):
+            hp=url.replace("tcp://","")
+            host,port=hp.split(":")
+            print("")
+            print("SSH CONNECT:")
+            print(f"ssh runner@{host} -p {port}")
+            print("")
+            break
+          else:
+            print("No TCP tunnel found")
           PY
-      
+          
       - name: Enable VNC
         run: |
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
