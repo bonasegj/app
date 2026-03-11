@@ -1,0 +1,175 @@
+name: macOS Cloud
+
+on:
+  workflow_dispatch:
+
+jobs:
+  remote:
+    runs-on: macos-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Enable Remote Login
+        run: |
+          sudo systemsetup -setremotelogin on
+          sudo systemsetup -getremotelogin
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
+
+      - name: Install tools
+        run: |
+          brew install ngrok/ngrok/ngrok tmux htop ttyd
+          ngrok version
+          tmux -V
+          ttyd -v
+
+      - name: Configure SSH key
+        env:
+          PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$PUBKEY" > ~/.ssh/authorized_keys
+          chmod 600 ~/.ssh/authorized_keys
+
+          echo "=== authorized_keys ==="
+          cat ~/.ssh/authorized_keys
+
+          echo "=== fingerprint ==="
+          ssh-keygen -lf ~/.ssh/authorized_keys || true
+
+      - name: Configure sshd
+        run: |
+          sudo sed -i '' 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+          sudo sed -i '' 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+          if ! grep -q '^AuthorizedKeysFile /Users/runner/.ssh/authorized_keys$' /etc/ssh/sshd_config; then
+            echo 'AuthorizedKeysFile /Users/runner/.ssh/authorized_keys' | sudo tee -a /etc/ssh/sshd_config
+          fi
+
+          sudo launchctl kickstart -k system/com.openssh.sshd || true
+          sleep 3
+
+          echo "=== ssh listening ==="
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
+
+      - name: Prepare shell environment
+        run: |
+          cat >> ~/.zshrc <<'EOF'
+          alias ll='ls -la'
+          alias gs='git status'
+          alias ..='cd ..'
+          alias ...='cd ../..'
+          EOF
+
+          mkdir -p ~/work
+          echo "Runner ready at $(date)" > ~/work/README.txt
+
+      - name: Start tmux session
+        run: |
+          tmux new-session -d -s remote
+          tmux send-keys -t remote 'echo "tmux session: remote"' C-m
+          tmux send-keys -t remote 'echo "Use: tmux attach -t remote"' C-m
+          tmux ls
+
+      - name: Start browser terminal
+        run: |
+          nohup ttyd -W -p 7681 tmux attach -t remote > ttyd.log 2>&1 &
+          sleep 3
+          echo "=== ttyd log ==="
+          cat ttyd.log || true
+          lsof -nP -iTCP:7681 -sTCP:LISTEN || true
+
+      - name: Write ngrok config
+        env:
+          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        run: |
+          mkdir -p "$HOME/Library/Application Support/ngrok"
+
+          cat > "$HOME/Library/Application Support/ngrok/ngrok.yml" <<EOF
+          version: 3
+          agent:
+            authtoken: $NGROK_TOKEN
+            web_addr: 127.0.0.1:4040
+          tunnels:
+            ssh:
+              proto: tcp
+              addr: 22
+            webterm:
+              proto: http
+              addr: 7681
+          EOF
+
+          echo "=== ngrok config ==="
+          cat "$HOME/Library/Application Support/ngrok/ngrok.yml"
+
+      - name: Start ngrok single agent
+        run: |
+          nohup ngrok start --all --log stdout --log-format json > ngrok.log 2>&1 &
+          sleep 15
+
+          echo "=== ngrok process ==="
+          ps aux | grep '[n]grok' || true
+
+          echo "=== ngrok log ==="
+          cat ngrok.log || true
+
+      - name: Query local ngrok API
+        run: |
+          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
+
+          echo "=== tunnels.json ==="
+          cat tunnels.json || true
+
+          if [ ! -s tunnels.json ]; then
+            echo "tunnels.json vacío"
+            exit 1
+          fi
+
+      - name: Print connection info
+        run: |
+          python3 <<'PY'
+          import json
+          import sys
+
+          with open("tunnels.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          ssh_url = None
+          web_url = None
+
+          for t in data.get("tunnels", []):
+              name = t.get("name", "")
+              url = t.get("public_url", "")
+              if name == "ssh" and url.startswith("tcp://"):
+                  ssh_url = url
+              elif name == "webterm" and (url.startswith("http://") or url.startswith("https://")):
+                  web_url = url
+
+          print()
+          print("=== CONNECTION INFO ===")
+          print()
+
+          if ssh_url:
+              hp = ssh_url.replace("tcp://", "")
+              host, port = hp.split(":")
+              print("SSH:")
+              print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
+              print()
+
+          if web_url:
+              print("WEB TERMINAL:")
+              print(web_url)
+              print()
+
+          if not ssh_url and not web_url:
+              print("No se encontraron túneles")
+              sys.exit(1)
+          PY
+
+      - name: Keep runner alive
+        run: |
+          while true; do
+            echo alive
+            date
+            sleep 60
+          done
