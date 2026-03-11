@@ -110,8 +110,7 @@ jobs:
                   host, port = hp.split(':')
                   print()
                   print('SSH CONNECT:')
-                  print(f'ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}')
-                  print()
+                  print(f"ssh runner@{host} -p {port}")print()
                   sys.exit(0)
           
           print('No se encontró túnel SSH en tunnels.json')
