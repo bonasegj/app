@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  remote:
+  ssh:
     runs-on: macos-latest
     timeout-minutes: 360
 
@@ -13,15 +13,11 @@ jobs:
         run: |
           sudo systemsetup -setremotelogin on
           sudo systemsetup -getremotelogin
-          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
       - name: Install ngrok
-        run: |
-          brew install ngrok/ngrok/ngrok
-          ngrok version
-          ngrok config check || true
+        run: brew install ngrok/ngrok/ngrok
 
-      - name: Configure SSH key
+      - name: Configure SSH authorized_keys
         env:
           PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
         run: |
@@ -30,103 +26,42 @@ jobs:
           printf '%s\n' "$PUBKEY" > ~/.ssh/authorized_keys
           chmod 600 ~/.ssh/authorized_keys
 
-          echo "=== authorized_keys ==="
-          cat ~/.ssh/authorized_keys
+          # Make sshd explicitly allow public-key auth for this session
+          sudo bash -c 'cat >> /etc/ssh/sshd_config <<EOF
+          PubkeyAuthentication yes
+          PasswordAuthentication no
+          ChallengeResponseAuthentication no
+          UsePAM no
+          EOF'
 
-          echo "=== fingerprint ==="
-          ssh-keygen -lf ~/.ssh/authorized_keys || true
+          sudo launchctl stop com.openssh.sshd || true
+          sudo launchctl start com.openssh.sshd
 
-      - name: Configure sshd
-        run: |
-          sudo sed -i '' 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-          sudo sed -i '' 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
-
-          if ! grep -q '^AuthorizedKeysFile /Users/runner/.ssh/authorized_keys$' /etc/ssh/sshd_config; then
-            echo 'AuthorizedKeysFile /Users/runner/.ssh/authorized_keys' | sudo tee -a /etc/ssh/sshd_config
-          fi
-
-          sudo launchctl kickstart -k system/com.openssh.sshd || true
-          sleep 3
-
-          echo "=== ssh listening ==="
-          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
-
-      - name: Start ngrok
+      - name: Start ngrok TCP tunnel
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
-        shell: bash
         run: |
-          set -x
-
           ngrok config add-authtoken "$NGROK_TOKEN"
+          ngrok tcp 22 --log=stdout > ngrok.log 2>&1 &
+          sleep 10
+          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json
+          cat tunnels.json
 
-          nohup ngrok tcp 22 --log stdout --log-format json > ngrok.log 2>&1 &
-          echo $! > ngrok.pid
-
-          sleep 15
-
-          echo "=== ngrok pid ==="
-          cat ngrok.pid || true
-
-          echo "=== ngrok process ==="
-          ps -p "$(cat ngrok.pid)" -o pid,ppid,stat,command || true
-          ps aux | grep '[n]grok' || true
-
-          echo "=== ngrok log ==="
-          cat ngrok.log || true
-
-      - name: Print SSH command from ngrok log
-        shell: bash
+      - name: Print SSH command
         run: |
-          echo "=== ngrok log again ==="
-          cat ngrok.log || true
-
-          URL="$(python3 - <<'PY'
+          python3 - <<'PY'
           import json
-          
-          url = ""
-          with open("ngrok.log", "r", encoding="utf-8", errors="ignore") as f:
-              for line in f:
-                  line = line.strip()
-                  if not line:
-                      continue
-                  try:
-                      obj = json.loads(line)
-                  except Exception:
-                      continue
-          
-                  msg = str(obj.get("msg", ""))
-                  if "started tunnel" in msg.lower() or "started tunnel" == msg.lower():
-                      url = obj.get("url", "") or obj.get("public_url", "") or ""
-                  if not url:
-                      maybe = obj.get("url", "")
-                      if isinstance(maybe, str) and maybe.startswith("tcp://"):
-                          url = maybe
-          
-          print(url)
+          with open("tunnels.json","r",encoding="utf-8") as f:
+              data=json.load(f)
+          url=data["tunnels"][0]["public_url"]   # tcp://host:port
+          hostport=url.replace("tcp://","")
+          host, port = hostport.split(":")
+          print(f"ssh runner@{host} -p {port}")
           PY
-          )"
-          
-                    echo "=== extracted url ==="
-                    echo "$URL"
-          
-                    if [ -z "$URL" ]; then
-                      echo "No se pudo extraer la URL TCP desde ngrok.log"
-                      exit 1
-                    fi
-          
-                    HOSTPORT="${URL#tcp://}"
-                    HOST="${HOSTPORT%:*}"
-                    PORT="${HOSTPORT##*:}"
-          
-                    echo ""
-                    echo "SSH CONNECT:"
-                    echo "ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@${HOST} -p ${PORT}"
-                    echo ""
-                          - name: Keep runner alive
-                            run: |
-                              while true; do
-                                echo alive
-                                date
-                                sleep 60
-                              done
+
+      - name: Keep runner alive
+        run: |
+          while true; do
+            echo alive
+            sleep 60
+          done
