@@ -15,8 +15,8 @@ jobs:
       - name: Setup SSH
         run: |
           sudo systemsetup -setremotelogin on
-          echo "runner:runner" | sudo chpasswd
-
+          sudo dscl . -passwd /Users/runner runner
+          
       - name: Start ngrok tunnel
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
