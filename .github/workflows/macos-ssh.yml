@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Enable Remote Login
-        run: | 
+        run: |
           sudo systemsetup -setremotelogin on
           sudo systemsetup -getremotelogin
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
@@ -19,8 +19,9 @@ jobs:
         run: |
           brew install ngrok/ngrok/ngrok
           ngrok version
+          ngrok config check || true
 
-      - name: Configure SSH authorized_keys
+      - name: Configure SSH key
         env:
           PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
         run: |
@@ -37,15 +38,16 @@ jobs:
 
       - name: Configure sshd
         run: |
-          sudo sed -i '' 's/#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-          sudo sed -i '' 's/#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+          sudo sed -i '' 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+          sudo sed -i '' 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 
-          echo "AuthorizedKeysFile /Users/runner/.ssh/authorized_keys" | sudo tee -a /etc/ssh/sshd_config
+          grep -q '^AuthorizedKeysFile /Users/runner/.ssh/authorized_keys$' /etc/ssh/sshd_config || \
+            echo 'AuthorizedKeysFile /Users/runner/.ssh/authorized_keys' | sudo tee -a /etc/ssh/sshd_config
 
           sudo launchctl kickstart -k system/com.openssh.sshd || true
           sleep 3
 
-          echo "=== ssh listen ==="
+          echo "=== ssh listening ==="
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
       - name: Start ngrok
@@ -62,62 +64,69 @@ jobs:
           echo "=== ngrok log ==="
           cat ngrok.log || true
 
-      - name: Print SSH command from log
-        shell: bash
+      - name: Get tunnel info from local ngrok API
         run: |
-          URL="$(grep -Eo 'tcp://[^ ]+' ngrok.log | tail -n 1 || true)"
+          rm -f tunnels.json
 
-          echo "=== extracted url ==="
-          echo "$URL"
+          for i in 1 2 3 4 5 6 7 8 9 10
+          do
+            echo "Intento $i"
+            curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
 
-          if [ -z "$URL" ]; then
-            echo "No pude extraer la URL TCP desde ngrok.log"
-            exit 1
-          fi
+            echo "=== tunnels.json ==="
+            cat tunnels.json || true
+            echo
 
-          HOSTPORT="${URL#tcp://}"
-          HOST="${HOSTPORT%:*}"
-          PORT="${HOSTPORT##*:}"
+            if [ -s tunnels.json ]; then
+              python3 - <<'PY'
+import json, sys
+try:
+    with open("tunnels.json", "r", encoding="utf-8") as f:
+        json.load(f)
+    sys.exit(0)
+except Exception:
+    sys.exit(1)
+PY
+              if [ $? -eq 0 ]; then
+                echo "tunnels.json válido"
+                exit 0
+              fi
+            fi
 
-          echo ""
-          echo "SSH CONNECT:"
-          echo "ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@${HOST} -p ${PORT}"
-          echo "" 
+            sleep 3
+          done
 
-      - name: Get tunnel info
-        run: |
-          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
-
-          echo "=== tunnels.json ==="
-          cat tunnels.json || true
+          echo "No se pudo obtener tunnels.json válido desde la API local de ngrok"
+          exit 1
 
       - name: Print SSH command
         run: |
-          python3 <<'PY'
-          import json
-          import os
+          python3 - <<'PY'
+import json, sys
 
-          if not os.path.exists("tunnels.json"):
-            print("tunnels.json no existe")
-            exit(1)
+with open("tunnels.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
 
-          data = json.load(open("tunnels.json"))
+tunnels = data.get("tunnels", [])
+for t in tunnels:
+    url = t.get("public_url", "")
+    if url.startswith("tcp://"):
+        hp = url.replace("tcp://", "")
+        host, port = hp.split(":")
+        print("")
+        print("SSH CONNECT:")
+        print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
+        print("")
+        sys.exit(0)
 
-          for t in data.get("tunnels", []):
-            url = t.get("public_url", "")
-            if url.startswith("tcp://"):
-              hp = url.replace("tcp://", "")
-              host, port = hp.split(":")
-              print("")
-              print("SSH CONNECT:")
-              print(f"ssh -vvv -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
-              print("")
-              break
-          PY
+print("No se encontró ningún túnel TCP en tunnels.json")
+sys.exit(1)
+PY
 
       - name: Keep runner alive
         run: |
-          while true; do
+          while true
+          do
             echo alive
             date
             sleep 60
