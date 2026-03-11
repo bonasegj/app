@@ -42,7 +42,9 @@ jobs:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
-          ngrok tcp 22 
+          nohup ngrok tcp 22 --log stdout > ngrok.log 2>&1 &
+          sleep 8
+          cat ngrok.log
           
       - name: Print SSH command
         run: |
