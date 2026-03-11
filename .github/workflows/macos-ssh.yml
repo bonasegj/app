@@ -20,7 +20,7 @@ jobs:
           brew install ngrok/ngrok/ngrok
           ngrok version
 
-      - name: Configure authorized_keys
+      - name: Configure SSH authorized_keys
         env:
           PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
         run: |
@@ -31,59 +31,30 @@ jobs:
 
           echo "=== authorized_keys ==="
           cat ~/.ssh/authorized_keys
+
           echo "=== fingerprint ==="
           ssh-keygen -lf ~/.ssh/authorized_keys || true
 
       - name: Configure sshd
         run: |
-          sudo python3 - <<'PY'
-          from pathlib import Path
-          p = Path("/etc/ssh/sshd_config")
-          text = p.read_text()
+          sudo sed -i '' 's/#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+          sudo sed -i '' 's/#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 
-          replacements = {
-              "PubkeyAuthentication": "yes",
-              "PasswordAuthentication": "no",
-              "KbdInteractiveAuthentication": "no",
-              "ChallengeResponseAuthentication": "no",
-              "UsePAM": "no",
-              "AuthorizedKeysFile": "/Users/runner/.ssh/authorized_keys",
-          }
-
-          lines = text.splitlines()
-          out = []
-          done = {k: False for k in replacements}
-
-          for line in lines:
-              stripped = line.strip()
-              matched = False
-              for k, v in replacements.items():
-                  if stripped.startswith(k + " "):
-                      out.append(f"{k} {v}")
-                      done[k] = True
-                      matched = True
-                      break
-              if not matched:
-                  out.append(line)
-
-          for k, v in replacements.items():
-              if not done[k]:
-                  out.append(f"{k} {v}")
-
-          p.write_text("\n".join(out) + "\n")
-          PY
+          echo "AuthorizedKeysFile /Users/runner/.ssh/authorized_keys" | sudo tee -a /etc/ssh/sshd_config
 
           sudo launchctl kickstart -k system/com.openssh.sshd || true
           sleep 3
+
+          echo "=== ssh listen ==="
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
-      - name: Start ngrok
+      - name: Configure ngrok
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
           nohup ngrok tcp 22 --log stdout > ngrok.log 2>&1 &
-          sleep 12
+          sleep 10
 
           echo "=== ngrok process ==="
           ps aux | grep '[n]grok' || true
@@ -93,56 +64,34 @@ jobs:
 
       - name: Get tunnel info
         run: |
-          rm -f tunnels.json
+          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
 
-          for i in {1..10}; do
-            echo "Intento $i..."
-            curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
-
-            echo "=== tunnels.json ==="
-            cat tunnels.json || true
-            echo
-
-            if [ -s tunnels.json ]; then
-              if python3 - <<'PY'
-import json, sys
-try:
-    json.load(open("tunnels.json", "r", encoding="utf-8"))
-    sys.exit(0)
-except Exception:
-    sys.exit(1)
-PY
-              then
-                echo "tunnels.json válido"
-                exit 0
-              fi
-            fi
-
-            sleep 3
-          done
-
-          echo "No se pudo obtener tunnels.json válido"
-          exit 1
+          echo "=== tunnels.json ==="
+          cat tunnels.json || true
 
       - name: Print SSH command
         run: |
-          python3 - <<'PY'
-          import json, os, sys
+          python3 <<'PY'
+import json
+import os
 
-          with open("tunnels.json", "r", encoding="utf-8") as f:
-              data = json.load(f)
+if not os.path.exists("tunnels.json"):
+    print("tunnels.json no existe")
+    exit(1)
 
-          for t in data.get("tunnels", []):
-              url = t.get("public_url", "")
-              if url.startswith("tcp://"):
-                  hp = url.replace("tcp://", "")
-                  host, port = hp.split(":")
-                  print(f"ssh -vvv -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
-                  sys.exit(0)
+data = json.load(open("tunnels.json"))
 
-          print("No se encontró túnel TCP")
-          sys.exit(1)
-          PY
+for t in data.get("tunnels", []):
+    url = t.get("public_url", "")
+    if url.startswith("tcp://"):
+        hp = url.replace("tcp://", "")
+        host, port = hp.split(":")
+        print("")
+        print("SSH CONNECT:")
+        print(f"ssh -vvv -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
+        print("")
+        break
+PY
 
       - name: Keep runner alive
         run: |
