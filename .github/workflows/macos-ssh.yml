@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ssh:
+  remote:
     runs-on: macos-latest
     timeout-minutes: 360
 
@@ -13,11 +13,15 @@ jobs:
         run: |
           sudo systemsetup -setremotelogin on
           sudo systemsetup -getremotelogin
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
       - name: Install ngrok
-        run: brew install ngrok/ngrok/ngrok
+        run: |
+          brew install ngrok/ngrok/ngrok
+          ngrok version
+          ngrok config check || true
 
-      - name: Configure SSH authorized_keys
+      - name: Configure SSH key
         env:
           PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
         run: |
@@ -26,42 +30,98 @@ jobs:
           printf '%s\n' "$PUBKEY" > ~/.ssh/authorized_keys
           chmod 600 ~/.ssh/authorized_keys
 
-          # Make sshd explicitly allow public-key auth for this session
-          sudo bash -c 'cat >> /etc/ssh/sshd_config <<EOF
-          PubkeyAuthentication yes
-          PasswordAuthentication no
-          ChallengeResponseAuthentication no
-          UsePAM no
-          EOF'
+          echo "=== authorized_keys ==="
+          cat ~/.ssh/authorized_keys
 
-          sudo launchctl stop com.openssh.sshd || true
-          sudo launchctl start com.openssh.sshd
+          echo "=== fingerprint ==="
+          ssh-keygen -lf ~/.ssh/authorized_keys || true
 
-      - name: Start ngrok TCP tunnel
+      - name: Configure sshd
+        run: |
+          sudo sed -i '' 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+          sudo sed -i '' 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+          if ! grep -q '^AuthorizedKeysFile /Users/runner/.ssh/authorized_keys$' /etc/ssh/sshd_config; then
+            echo 'AuthorizedKeysFile /Users/runner/.ssh/authorized_keys' | sudo tee -a /etc/ssh/sshd_config
+          fi
+
+          sudo launchctl kickstart -k system/com.openssh.sshd || true
+          sleep 3
+
+          echo "=== ssh listening ==="
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
+
+      - name: Write ngrok config
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
-          ngrok config add-authtoken "$NGROK_TOKEN"
-          ngrok tcp 22 --log=stdout > ngrok.log 2>&1 &
-          sleep 10
-          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json
-          cat tunnels.json
+          mkdir -p "$HOME/Library/Application Support/ngrok"
+
+          cat > "$HOME/Library/Application Support/ngrok/ngrok.yml" <<EOF
+          version: 3
+          agent:
+            authtoken: $NGROK_TOKEN
+            web_addr: 127.0.0.1:4040
+          tunnels:
+            ssh:
+              proto: tcp
+              addr: 22
+          EOF
+
+          echo "=== ngrok config ==="
+          cat "$HOME/Library/Application Support/ngrok/ngrok.yml"
+
+      - name: Start ngrok single agent
+        run: |
+          nohup ngrok start --all --log stdout --log-format json > ngrok.log 2>&1 &
+          sleep 12
+
+          echo "=== ngrok process ==="
+          ps aux | grep '[n]grok' || true
+
+          echo "=== ngrok log ==="
+          cat ngrok.log || true
+
+      - name: Query local ngrok API
+        run: |
+          curl -sv http://127.0.0.1:4040/api/tunnels -o tunnels.json || true
+
+          echo
+          echo "=== tunnels.json ==="
+          cat tunnels.json || true
+          echo
+
+          if [ ! -s tunnels.json ]; then
+            echo "tunnels.json está vacío"
+            exit 1
+          fi
 
       - name: Print SSH command
         run: |
-          python3 - <<'PY'
-          import json
-          with open("tunnels.json","r",encoding="utf-8") as f:
-              data=json.load(f)
-          url=data["tunnels"][0]["public_url"]   # tcp://host:port
-          hostport=url.replace("tcp://","")
-          host, port = hostport.split(":")
-          print(f"ssh runner@{host} -p {port}")
-          PY
-
-      - name: Keep runner alive
-        run: |
-          while true; do
-            echo alive
-            sleep 60
-          done
+          python3 -c "
+          import json, sys
+          with open('tunnels.json', 'r', encoding='utf-8') as f:
+              data = json.load(f)
+          
+          for t in data.get('tunnels', []):
+              url = t.get('public_url', '')
+              if t.get('name') == 'ssh' and url.startswith('tcp://'):
+                  hp = url.replace('tcp://', '')
+                  host, port = hp.split(':')
+                  print()
+                  print('SSH CONNECT:')
+                  print(f'ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}')
+                  print()
+                  sys.exit(0)
+          
+          print('No se encontró túnel SSH en tunnels.json')
+          sys.exit(1)
+          "
+          
+                - name: Keep runner alive
+                  run: |
+                    while true; do
+                      echo alive
+                      date
+                      sleep 60
+                    done
