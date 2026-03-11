@@ -94,36 +94,10 @@ jobs:
             exit 1
           fi
 
-      - name: Print SSH command
+      - name: Keep runner alive
         run: |
-          python3 <<'PY'
-          import json
-          import sys
-          
-          with open("tunnels.json","r",encoding="utf-8") as f:
-              data=json.load(f)
-          
-          for t in data.get("tunnels",[]):
-              if t.get("name")=="ssh":
-                  url=t.get("public_url","")
-                  if url.startswith("tcp://"):
-                      hp=url.replace("tcp://","")
-                      host,port=hp.split(":")
-                      print("")
-                      print("SSH CONNECT:")
-                      print(f"ssh runner@{host} -p {port}")
-                      print("use key: C:\\Users\\Jorge\\.ssh\\id_ed25519")
-                      print("")
-                      sys.exit(0)
-          
-          print("No SSH tunnel found")
-          sys.exit(1)
-          PY
-          
-                - name: Keep runner alive
-                  run: |
-                    while true; do
-                      echo alive
-                      date
-                      sleep 60
-                    done
+          while true; do
+            echo alive
+            date
+            sleep 60
+          done
