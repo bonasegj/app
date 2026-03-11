@@ -1,6 +1,7 @@
 name: macOS SSH
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
 
 jobs:
   ssh:
@@ -8,27 +9,59 @@ jobs:
     timeout-minutes: 360
 
     steps:
-      - name: Install ngrok
-        run: |
-          brew install ngrok/ngrok/ngrok
-
-      - name: Setup SSH
+      - name: Enable Remote Login
         run: |
           sudo systemsetup -setremotelogin on
-          sudo dscl . -passwd /Users/runner runner
-          
-      - name: Start ngrok tunnel
+          sudo systemsetup -getremotelogin
+
+      - name: Install ngrok
+        run: brew install ngrok/ngrok/ngrok
+
+      - name: Configure SSH authorized_keys
+        env:
+          PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$PUBKEY" > ~/.ssh/authorized_keys
+          chmod 600 ~/.ssh/authorized_keys
+
+          # Make sshd explicitly allow public-key auth for this session
+          sudo bash -c 'cat >> /etc/ssh/sshd_config <<EOF
+          PubkeyAuthentication yes
+          PasswordAuthentication no
+          ChallengeResponseAuthentication no
+          UsePAM no
+          EOF'
+
+          sudo launchctl stop com.openssh.sshd || true
+          sudo launchctl start com.openssh.sshd
+
+      - name: Start ngrok TCP tunnel
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
-          ngrok config add-authtoken $NGROK_TOKEN
-          ngrok tcp 22 > /dev/null &
+          ngrok config add-authtoken "$NGROK_TOKEN"
+          ngrok tcp 22 --log=stdout > ngrok.log 2>&1 &
           sleep 10
-          curl -s http://127.0.0.1:4040/api/tunnels
-          
-      - name: Keep machine alive
+          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json
+          cat tunnels.json
+
+      - name: Print SSH command
+        run: |
+          python3 - <<'PY'
+          import json
+          with open("tunnels.json","r",encoding="utf-8") as f:
+              data=json.load(f)
+          url=data["tunnels"][0]["public_url"]   # tcp://host:port
+          hostport=url.replace("tcp://","")
+          host, port = hostport.split(":")
+          print(f"ssh runner@{host} -p {port}")
+          PY
+
+      - name: Keep runner alive
         run: |
           while true; do
-            echo "macOS runner alive"
+            echo alive
             sleep 60
           done
