@@ -1,4 +1,4 @@
-name: macOS SSH + VNC
+name: macOS SSH
 
 on:
   workflow_dispatch:
@@ -13,7 +13,6 @@ jobs:
         run: |
           sudo systemsetup -setremotelogin on
           sudo systemsetup -getremotelogin
-          echo "=== ssh listen before config ==="
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
       - name: Install ngrok
@@ -21,7 +20,7 @@ jobs:
           brew install ngrok/ngrok/ngrok
           ngrok version
 
-      - name: Configure SSH authorized_keys
+      - name: Configure authorized_keys
         env:
           PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
         run: |
@@ -30,221 +29,84 @@ jobs:
           printf '%s\n' "$PUBKEY" > ~/.ssh/authorized_keys
           chmod 600 ~/.ssh/authorized_keys
 
-          echo "=== ~/.ssh ==="
+          echo "=== whoami ==="
+          whoami
+          echo "=== ssh dir ==="
           ls -la ~/.ssh
           echo "=== authorized_keys ==="
           cat ~/.ssh/authorized_keys
-          echo "=== authorized_keys fingerprint ==="
-          ssh-keygen -lf ~/.ssh/authorized_keys || true
+          echo "=== fingerprint ==="
+          ssh-keygen -lf ~/.ssh/authorized_keys
 
       - name: Configure sshd
         run: |
-          sudo cp /etc/ssh/sshd_config /tmp/sshd_config.bak || true
-
           sudo python3 - <<'PY'
           from pathlib import Path
-
           p = Path("/etc/ssh/sshd_config")
           text = p.read_text()
 
-          lines = text.splitlines()
-          new_lines = []
-          replaced = {
-              "PubkeyAuthentication": False,
-              "PasswordAuthentication": False,
-              "KbdInteractiveAuthentication": False,
-              "ChallengeResponseAuthentication": False,
-              "UsePAM": False,
-              "AuthorizedKeysFile": False,
+          replacements = {
+              "PubkeyAuthentication": "yes",
+              "PasswordAuthentication": "no",
+              "KbdInteractiveAuthentication": "no",
+              "ChallengeResponseAuthentication": "no",
+              "UsePAM": "no",
+              "AuthorizedKeysFile": "/Users/runner/.ssh/authorized_keys",
           }
+
+          lines = text.splitlines()
+          out = []
+          done = {k: False for k in replacements}
 
           for line in lines:
               stripped = line.strip()
-              if stripped.startswith("PubkeyAuthentication "):
-                  new_lines.append("PubkeyAuthentication yes")
-                  replaced["PubkeyAuthentication"] = True
-              elif stripped.startswith("PasswordAuthentication "):
-                  new_lines.append("PasswordAuthentication no")
-                  replaced["PasswordAuthentication"] = True
-              elif stripped.startswith("KbdInteractiveAuthentication "):
-                  new_lines.append("KbdInteractiveAuthentication no")
-                  replaced["KbdInteractiveAuthentication"] = True
-              elif stripped.startswith("ChallengeResponseAuthentication "):
-                  new_lines.append("ChallengeResponseAuthentication no")
-                  replaced["ChallengeResponseAuthentication"] = True
-              elif stripped.startswith("UsePAM "):
-                  new_lines.append("UsePAM no")
-                  replaced["UsePAM"] = True
-              elif stripped.startswith("AuthorizedKeysFile "):
-                  new_lines.append("AuthorizedKeysFile .ssh/authorized_keys")
-                  replaced["AuthorizedKeysFile"] = True
-              else:
-                  new_lines.append(line)
+              matched = False
+              for k, v in replacements.items():
+                  if stripped.startswith(k + " "):
+                      out.append(f"{k} {v}")
+                      done[k] = True
+                      matched = True
+                      break
+              if not matched:
+                  out.append(line)
 
-          for key, done in replaced.items():
-              if not done:
-                  if key == "PubkeyAuthentication":
-                      new_lines.append("PubkeyAuthentication yes")
-                  elif key == "PasswordAuthentication":
-                      new_lines.append("PasswordAuthentication no")
-                  elif key == "KbdInteractiveAuthentication":
-                      new_lines.append("KbdInteractiveAuthentication no")
-                  elif key == "ChallengeResponseAuthentication":
-                      new_lines.append("ChallengeResponseAuthentication no")
-                  elif key == "UsePAM":
-                      new_lines.append("UsePAM no")
-                  elif key == "AuthorizedKeysFile":
-                      new_lines.append("AuthorizedKeysFile .ssh/authorized_keys")
+          for k, v in replacements.items():
+              if not done[k]:
+                  out.append(f"{k} {v}")
 
-          p.write_text("\n".join(new_lines) + "\n")
+          p.write_text("\n".join(out) + "\n")
           PY
 
-          echo "=== sshd config tail ==="
-          tail -n 20 /etc/ssh/sshd_config || true
+          echo "=== sshd config ==="
+          grep -E '^(PubkeyAuthentication|PasswordAuthentication|KbdInteractiveAuthentication|ChallengeResponseAuthentication|UsePAM|AuthorizedKeysFile)' /etc/ssh/sshd_config || true
 
           sudo launchctl kickstart -k system/com.openssh.sshd || true
           sleep 3
-
-          echo "=== ssh listen after config ==="
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
-      - name: Enable VNC / Remote Management
-        run: |
-          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
-            -activate -configure -access -on \
-            -users runner -privs -all \
-            -restart -agent -menu
-
-          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
-            -configure -clientopts -setvnclegacy -vnclegacy yes \
-            -setvncpw -vncpw runner
-
-          sleep 3
-
-          echo "=== vnc listen ==="
-          sudo lsof -nP -iTCP:5900 -sTCP:LISTEN || true
-
-          open -a Finder || true
-          open -a Safari || true
-
-      - name: Configure ngrok with both tunnels
+      - name: Configure ngrok
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
-
-          mkdir -p "$HOME/Library/Application Support/ngrok"
-
-          cat > "$HOME/Library/Application Support/ngrok/ngrok.yml" <<'EOF'
-          version: 3
-          agent:
-            authtoken: ${NGROK_TOKEN}
-          tunnels:
-            ssh:
-              proto: tcp
-              addr: 22
-            vnc:
-              proto: tcp
-              addr: 5900
-          EOF
-
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path.home() / "Library/Application Support/ngrok/ngrok.yml"
-          txt = p.read_text()
-          txt = txt.replace("${NGROK_TOKEN}", "")
-          p.write_text(txt)
-          PY
-
-          echo "=== ngrok config ==="
-          cat "$HOME/Library/Application Support/ngrok/ngrok.yml"
-
-      - name: Start ngrok agent
-        env:
-          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import os
-          p = Path.home() / "Library/Application Support/ngrok/ngrok.yml"
-          txt = p.read_text()
-          txt = txt.replace("authtoken: ", f"authtoken: {os.environ['NGROK_TOKEN']}")
-          p.write_text(txt)
-          PY
-
-          nohup ngrok start --all --log stdout > ngrok.log 2>&1 &
+          nohup ngrok tcp 22 --log stdout > ngrok.log 2>&1 &
           sleep 10
-
-          echo "=== ngrok process ==="
-          ps aux | grep '[n]grok' || true
-
-          echo "=== ngrok log ==="
           cat ngrok.log || true
-
-      - name: Get tunnel info
-        run: |
           curl -s http://127.0.0.1:4040/api/tunnels | tee tunnels.json
-          echo
-          echo "=== raw tunnels.json ==="
-          cat tunnels.json
 
-      - name: Print connection info
+      - name: Print SSH command
         run: |
           python3 - <<'PY'
-          import json, os, sys
-
-          if not os.path.exists("tunnels.json"):
-              print("tunnels.json not found")
-              sys.exit(1)
-
+          import json
           with open("tunnels.json", "r", encoding="utf-8") as f:
               data = json.load(f)
-
-          tunnels = data.get("tunnels", [])
-          if not tunnels:
-              print("No tunnels found")
-              sys.exit(1)
-
-          ssh_url = None
-          vnc_url = None
-
-          for t in tunnels:
-              public_url = t.get("public_url", "")
-              name = t.get("name", "")
-              config = t.get("config", {})
-              addr = str(config.get("addr", ""))
-
-              if public_url.startswith("tcp://"):
-                  if name == "ssh" or addr.endswith(":22") or addr == "22":
-                      ssh_url = public_url
-                  elif name == "vnc" or addr.endswith(":5900") or addr == "5900":
-                      vnc_url = public_url
-
-          print("")
-          print("=== CONNECTION INFO ===")
-          print("")
-
-          if ssh_url:
-              hp = ssh_url.replace("tcp://", "")
-              host, port = hp.split(":")
-              print("SSH:")
-              print(f"ssh -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 runner@{host} -p {port}")
-              print("")
-          else:
-              print("SSH tunnel not found")
-              print("")
-
-          if vnc_url:
-              hp = vnc_url.replace("tcp://", "")
-              host, port = hp.split(":")
-              print("VNC:")
-              print(f"{host}:{port}")
-              print(f"vnc://{host}:{port}")
-              print("VNC password: runner")
-              print("")
-          else:
-              print("VNC tunnel not found")
-              print("")
+          for t in data.get("tunnels", []):
+              url = t.get("public_url", "")
+              if url.startswith("tcp://"):
+                  hp = url.replace("tcp://", "")
+                  host, port = hp.split(":")
+                  print(f"ssh -vvv -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
+                  break
           PY
 
       - name: Keep runner alive
