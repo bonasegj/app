@@ -37,16 +37,13 @@ jobs:
           sudo launchctl stop com.openssh.sshd || true
           sudo launchctl start com.openssh.sshd
 
-      - name: Debug ngrok
+      - name: Start ngrok
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
-          ngrok tcp 22 --log stdout
-          sleep 10
-          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json
-          cat tunnels.json
-
+          ngrok tcp 22 
+          
       - name: Print SSH command
         run: |
           python3 - <<'PY'
