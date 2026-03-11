@@ -70,9 +70,9 @@ jobs:
               print(f"ssh runner@{host} -p {port}")
               print("")
               break
-           else:
+            else:
               print("No TCP tunnel found")
-           PY
+            PY
           
       - name: Enable VNC
         run: |
