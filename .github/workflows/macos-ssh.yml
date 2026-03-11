@@ -72,26 +72,26 @@ jobs:
       - name: Print SSH command
         run: |
           python3 <<'PY'
-import json
-import os
+          import json
+          import os
 
-if not os.path.exists("tunnels.json"):
-    print("tunnels.json no existe")
-    exit(1)
+          if not os.path.exists("tunnels.json"):
+            print("tunnels.json no existe")
+            exit(1)
 
-data = json.load(open("tunnels.json"))
+          data = json.load(open("tunnels.json"))
 
-for t in data.get("tunnels", []):
-    url = t.get("public_url", "")
-    if url.startswith("tcp://"):
-        hp = url.replace("tcp://", "")
-        host, port = hp.split(":")
-        print("")
-        print("SSH CONNECT:")
-        print(f"ssh -vvv -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
-        print("")
-        break
-PY
+          for t in data.get("tunnels", []):
+            url = t.get("public_url", "")
+            if url.startswith("tcp://"):
+              hp = url.replace("tcp://", "")
+              host, port = hp.split(":")
+              print("")
+              print("SSH CONNECT:")
+              print(f"ssh -vvv -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
+              print("")
+          break
+        PY
 
       - name: Keep runner alive
         run: |
