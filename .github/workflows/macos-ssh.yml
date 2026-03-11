@@ -80,9 +80,9 @@ jobs:
       - name: Set VNC password
         run: |
           mkdir -p ~/.vnc
-          echo "runner" | /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
             -configure -clientopts -setvnclegacy -vnclegacy yes \
-            -setvncpw -vncpw runner
+            -setvncpw -vncpw runnerr
 
       - name: Print connection info
         run: |
