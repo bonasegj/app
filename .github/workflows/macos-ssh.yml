@@ -48,19 +48,41 @@ jobs:
           echo "=== ssh listen ==="
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
-      - name: Configure ngrok
+      - name: Start ngrok
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
           nohup ngrok tcp 22 --log stdout > ngrok.log 2>&1 &
-          sleep 10
+          sleep 12
 
           echo "=== ngrok process ==="
           ps aux | grep '[n]grok' || true
 
           echo "=== ngrok log ==="
           cat ngrok.log || true
+
+      - name: Print SSH command from log
+        shell: bash
+        run: |
+          URL="$(grep -Eo 'tcp://[^ ]+' ngrok.log | tail -n 1 || true)"
+
+          echo "=== extracted url ==="
+          echo "$URL"
+
+          if [ -z "$URL" ]; then
+            echo "No pude extraer la URL TCP desde ngrok.log"
+            exit 1
+          fi
+
+          HOSTPORT="${URL#tcp://}"
+          HOST="${HOSTPORT%:*}"
+          PORT="${HOSTPORT##*:}"
+
+          echo ""
+          echo "SSH CONNECT:"
+          echo "ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@${HOST} -p ${PORT}"
+          echo "" 
 
       - name: Get tunnel info
         run: |
