@@ -39,7 +39,7 @@ jobs:
 
       - name: Debug ngrok
         env:
-          NGROK_TOKEN: ${{ secrets.NGROK }}
+          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
           ngrok tcp 22 --log stdout
@@ -58,7 +58,12 @@ jobs:
           host, port = hostport.split(":")
           print(f"ssh runner@{host} -p {port}")
           PY
-
+      
+      - name: Enable VNC
+        run: |
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
+          -activate -configure -access -on -users runner -privs -all 
+      
       - name: Keep runner alive
         run: |
           while true; do
