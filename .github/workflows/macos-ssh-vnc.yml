@@ -160,10 +160,15 @@ jobs:
               sys.exit(1)
           PY
 
-      - name: Keep runner alive
+      - name: tmux
         run: |
-          while true; do
-            echo alive
-            date
-            sleep 60
-          done
+          brew install tmux
+          tmux attach -t remote
+          
+     # - name: Keep runner alive
+     #   run: |
+     #     while true; do
+     #       echo alive
+     #       date
+     #       sleep 60
+     #     done
