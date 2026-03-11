@@ -1,4 +1,4 @@
-name: macOS SSH
+name: macOS SSH + VNC
 
 on:
   workflow_dispatch:
@@ -13,6 +13,7 @@ jobs:
         run: |
           sudo systemsetup -setremotelogin on
           sudo systemsetup -getremotelogin
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
       - name: Install ngrok
         run: brew install ngrok/ngrok/ngrok
@@ -26,62 +27,117 @@ jobs:
           printf '%s\n' "$PUBKEY" > ~/.ssh/authorized_keys
           chmod 600 ~/.ssh/authorized_keys
 
-          # Make sshd explicitly allow public-key auth for this session
-          sudo bash -c 'cat >> /etc/ssh/sshd_config <<EOF
+          sudo mkdir -p /etc/ssh/sshd_config.d
+          sudo tee /etc/ssh/sshd_config.d/99-github-actions.conf > /dev/null <<'EOF'
           PubkeyAuthentication yes
           PasswordAuthentication no
+          KbdInteractiveAuthentication no
           ChallengeResponseAuthentication no
           UsePAM no
-          EOF'
+          AuthorizedKeysFile .ssh/authorized_keys
+          EOF
 
           sudo launchctl stop com.openssh.sshd || true
           sudo launchctl start com.openssh.sshd
 
-      - name: Start ngrok
+          echo "=== ~/.ssh ==="
+          ls -la ~/.ssh
+          echo "=== authorized_keys fingerprint ==="
+          ssh-keygen -lf ~/.ssh/authorized_keys || true
+
+      - name: Enable VNC / Remote Management
+        run: |
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
+            -activate -configure -access -on \
+            -users runner -privs -all \
+            -restart -agent -menu
+
+          sudo lsof -nP -iTCP:5900 -sTCP:LISTEN || true
+
+          open -a Finder || true
+          open -a Safari || true
+
+      - name: Start ngrok tunnels
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
-          nohup ngrok tcp 22 --log stdout > ngrok.log 2>&1 &
-          
+
+          nohup ngrok tcp 22 --log stdout > ngrok-ssh.log 2>&1 &
+          nohup ngrok tcp 5900 --log stdout > ngrok-vnc.log 2>&1 &
+
+          sleep 12
+
+          echo "=== ngrok ssh log ==="
+          cat ngrok-ssh.log || true
+          echo "=== ngrok vnc log ==="
+          cat ngrok-vnc.log || true
+
       - name: Get tunnel info
         run: |
-          sleep 10
-          curl -s http://127.0.0.1:4040/api/tunnels | tee tunnels.json   
-      
-      - name: Print SSH command
+          curl -s http://127.0.0.1:4040/api/tunnels | tee tunnels.json
+
+      - name: Print connection info
         run: |
           python3 - <<'PY'
           import json, os, sys
 
           if not os.path.exists("tunnels.json"):
-            print("tunnels.json not found")
-            sys.exit(1)
+              print("tunnels.json not found")
+              sys.exit(1)
 
-          data=json.load(open("tunnels.json"))
+          with open("tunnels.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
 
-          for t in data.get("tunnels",[]):
-            url=t.get("public_url","")
-            if url.startswith("tcp://"):
-              hp=url.replace("tcp://","")
-              host,port=hp.split(":")
+          tunnels = data.get("tunnels", [])
+          if not tunnels:
+              print("No tunnels found")
+              sys.exit(1)
+
+          ssh_url = None
+          vnc_url = None
+
+          for t in tunnels:
+              public_url = t.get("public_url", "")
+              config = t.get("config", {})
+              addr = config.get("addr", "")
+
+              if public_url.startswith("tcp://"):
+                  if str(addr).endswith(":22") or addr == "localhost:22":
+                      ssh_url = public_url
+                  elif str(addr).endswith(":5900") or addr == "localhost:5900":
+                      vnc_url = public_url
+
+          print("")
+          print("=== CONNECTION INFO ===")
+          print("")
+
+          if ssh_url:
+              hp = ssh_url.replace("tcp://", "")
+              host, port = hp.split(":")
+              print("SSH:")
+              print(f"ssh -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 runner@{host} -p {port}")
               print("")
-              print("SSH CONNECT:")
-              print(f"ssh runner@{host} -p {port}")
+          else:
+              print("SSH tunnel not found")
               print("")
-              break
-            else:
-              print("No TCP tunnel found")
-            PY
-          
-      - name: Enable VNC
-        run: |
-          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
-          -activate -configure -access -on -users runner -privs -all 
-      
+
+          if vnc_url:
+              hp = vnc_url.replace("tcp://", "")
+              host, port = hp.split(":")
+              print("VNC:")
+              print(f"{host}:{port}")
+              print(f"vnc://{host}:{port}")
+              print("")
+          else:
+              print("VNC tunnel not found")
+              print("")
+          PY
+
       - name: Keep runner alive
         run: |
           while true; do
             echo alive
+            date
             sleep 60
           done
