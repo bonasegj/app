@@ -1,0 +1,65 @@
+name: macOS Web Desktop
+
+on:
+  workflow_dispatch:
+
+jobs:
+  remote:
+    runs-on: macos-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Enable SSH
+        run: |
+          sudo systemsetup -setremotelogin on
+
+      - name: Install packages
+        run: |
+          brew install ngrok/ngrok/ngrok
+          brew install python
+          brew install websockify
+          brew install novnc
+
+      - name: Enable Remote Management
+        run: |
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
+            -activate -configure -access -on \
+            -users runner -privs -all \
+            -clientopts -setvnclegacy -vnclegacy yes \
+            -clientopts -setvncpw -vncpw runner \
+            -restart -agent
+
+      - name: Start noVNC
+        run: |
+          /opt/homebrew/opt/novnc/utils/novnc_proxy \
+            --vnc localhost:5900 \
+            --listen 6080 &
+
+      - name: Configure ngrok
+        env:
+          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        run: |
+          ngrok config add-authtoken "$NGROK_TOKEN"
+
+      - name: Start ngrok
+        run: |
+          nohup ngrok http 6080 > ngrok.log 2>&1 &
+          sleep 10
+
+      - name: Print URL
+        run: |
+          curl -s http://127.0.0.1:4040/api/tunnels | python3 - <<'PY'
+          import json,sys
+          data=json.load(sys.stdin)
+          for t in data["tunnels"]:
+              if t["proto"]=="https":
+                  print("\nOPEN DESKTOP:\n")
+                  print(t["public_url"])
+          PY
+          
+                - name: Keep alive
+                  run: |
+                    while true; do
+                      echo alive
+                      sleep 60
+                    done
