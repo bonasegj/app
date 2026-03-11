@@ -9,17 +9,17 @@ jobs:
     timeout-minutes: 360
 
     steps:
-
       - name: Enable Remote Login
         run: |
           sudo systemsetup -setremotelogin on
           sudo systemsetup -getremotelogin
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
-      - name: Install ngrok
+      - name: Install tools
         run: |
-          brew install ngrok/ngrok/ngrok
+          brew install ngrok/ngrok/ngrok tmux htop
           ngrok version
+          tmux -V
 
       - name: Configure SSH key
         env:
@@ -51,7 +51,33 @@ jobs:
           echo "=== ssh listening ==="
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
-      - name: Create ngrok config
+      - name: Prepare shell environment
+        run: |
+          cat >> ~/.zshrc <<'EOF'
+          alias ll='ls -la'
+          alias gs='git status'
+          alias ..='cd ..'
+          alias ...='cd ../..'
+          EOF
+
+          cat >> ~/.bashrc <<'EOF'
+          alias ll='ls -la'
+          alias gs='git status'
+          alias ..='cd ..'
+          alias ...='cd ../..'
+          EOF
+
+          mkdir -p ~/work
+          echo "Runner ready at $(date)" > ~/work/README.txt
+
+      - name: Start tmux session
+        run: |
+          tmux new-session -d -s remote
+          tmux send-keys -t remote 'echo "tmux session: remote"' C-m
+          tmux send-keys -t remote 'echo "Use: tmux attach -t remote"' C-m
+          tmux ls
+
+      - name: Write ngrok config
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
@@ -94,10 +120,39 @@ jobs:
             exit 1
           fi
 
-      - name: Keep runner alive
+      - name: Print SSH command
         run: |
-          while true; do
-            echo alive
-            date
-            sleep 60
-          done
+          python3 <<'PY'
+          import json
+          import sys
+          
+          with open("tunnels.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
+          
+          for t in data.get("tunnels", []):
+              if t.get("name") == "ssh":
+                  url = t.get("public_url", "")
+                  if url.startswith("tcp://"):
+                      hp = url.replace("tcp://", "")
+                      host, port = hp.split(":")
+                      print("")
+                      print("SSH CONNECT:")
+                      print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
+                      print("")
+                      print("Useful after login:")
+                      print("  tmux attach -t remote")
+                      print("  cd ~/work")
+                      print("")
+                      sys.exit(0)
+          
+          print("No SSH tunnel found")
+          sys.exit(1)
+          PY
+          
+                - name: Keep runner alive
+                  run: |
+                    while true; do
+                      echo alive
+                      date
+                      sleep 60
+                    done
