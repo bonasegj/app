@@ -1,0 +1,34 @@
+name: macOS SSH
+
+on: workflow_dispatch
+
+jobs:
+  ssh:
+    runs-on: macos-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Install ngrok
+        run: |
+          brew install ngrok/ngrok/ngrok
+
+      - name: Setup SSH
+        run: |
+          sudo systemsetup -setremotelogin on
+          echo "runner:runner" | sudo chpasswd
+
+      - name: Start ngrok tunnel
+        env:
+          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        run: |
+          ngrok config add-authtoken $NGROK_TOKEN
+          ngrok tcp 22 > /dev/null &
+          sleep 10
+          curl -s http://127.0.0.1:4040/api/tunnels
+          
+      - name: Keep machine alive
+        run: |
+          while true; do
+            echo "macOS runner alive"
+            sleep 60
+          done
