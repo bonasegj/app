@@ -125,10 +125,10 @@ jobs:
           python3 <<'PY'
           import json
           import sys
-          
+
           with open("tunnels.json", "r", encoding="utf-8") as f:
               data = json.load(f)
-          
+
           for t in data.get("tunnels", []):
               if t.get("name") == "ssh":
                   url = t.get("public_url", "")
@@ -140,11 +140,11 @@ jobs:
                       print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
                       print("")
                       print("Useful after login:")
-                      print("  tmux attach -t remote")
-                      print("  cd ~/work")
+                      print("tmux attach -t remote")
+                      print("cd ~/work")
                       print("")
                       sys.exit(0)
-          
+
           print("No SSH tunnel found")
           sys.exit(1)
           PY
