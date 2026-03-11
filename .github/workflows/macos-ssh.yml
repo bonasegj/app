@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Enable Remote Login
-        run: |
+        run: | 
           sudo systemsetup -setremotelogin on
           sudo systemsetup -getremotelogin
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
