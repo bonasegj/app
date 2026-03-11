@@ -56,7 +56,13 @@ jobs:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
-          nohup ngrok tcp 22 --log stdout > ngrok.log 2>&1 &
+
+          nohup ngrok tcp 22 \
+            --web-addr 127.0.0.1:4040 \
+            --log stdout \
+            --log-format json \
+            > ngrok.log 2>&1 &
+
           sleep 12
 
           echo "=== ngrok process ==="
@@ -65,35 +71,18 @@ jobs:
           echo "=== ngrok log ==="
           cat ngrok.log || true
 
-      - name: Get tunnel info from local ngrok API
-        shell: bash
+      - name: Query local ngrok API
         run: |
-          rm -f tunnels.json
+          echo "=== curl to local API ==="
+          curl -sv http://127.0.0.1:4040/api/tunnels -o tunnels.json || true
 
-          ok=0
+          echo
+          echo "=== tunnels.json ==="
+          cat tunnels.json || true
+          echo
 
-          for i in 1 2 3 4 5 6 7 8 9 10; do
-            echo "Intento $i"
-
-            curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
-
-            echo "=== tunnels.json ==="
-            cat tunnels.json || true
-            echo
-
-            if [ -s tunnels.json ]; then
-              if python3 -c "import json; json.load(open('tunnels.json', 'r', encoding='utf-8'))" 2>/dev/null; then
-                echo "tunnels.json válido"
-                ok=1
-                break
-              fi
-            fi
-
-            sleep 3
-          done
-
-          if [ "$ok" -ne 1 ]; then
-            echo "No se pudo obtener tunnels.json válido desde la API local de ngrok"
+          if [ ! -s tunnels.json ]; then
+            echo "tunnels.json está vacío"
             exit 1
           fi
 
