@@ -41,8 +41,9 @@ jobs:
           sudo sed -i '' 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
           sudo sed -i '' 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 
-          grep -q '^AuthorizedKeysFile /Users/runner/.ssh/authorized_keys$' /etc/ssh/sshd_config || \
+          if ! grep -q '^AuthorizedKeysFile /Users/runner/.ssh/authorized_keys$' /etc/ssh/sshd_config; then
             echo 'AuthorizedKeysFile /Users/runner/.ssh/authorized_keys' | sudo tee -a /etc/ssh/sshd_config
+          fi
 
           sudo launchctl kickstart -k system/com.openssh.sshd || true
           sleep 3
@@ -65,12 +66,15 @@ jobs:
           cat ngrok.log || true
 
       - name: Get tunnel info from local ngrok API
+        shell: bash
         run: |
           rm -f tunnels.json
 
-          for i in 1 2 3 4 5 6 7 8 9 10
-          do
+          ok=0
+
+          for i in 1 2 3 4 5 6 7 8 9 10; do
             echo "Intento $i"
+
             curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
 
             echo "=== tunnels.json ==="
@@ -78,56 +82,45 @@ jobs:
             echo
 
             if [ -s tunnels.json ]; then
-              python3 - <<'PY'
-              import json, sys
-              try:
-                  with open("tunnels.json", "r", encoding="utf-8") as f:
-                      json.load(f)
+              if python3 -c "import json; json.load(open('tunnels.json', 'r', encoding='utf-8'))" 2>/dev/null; then
+                echo "tunnels.json válido"
+                ok=1
+                break
+              fi
+            fi
+
+            sleep 3
+          done
+
+          if [ "$ok" -ne 1 ]; then
+            echo "No se pudo obtener tunnels.json válido desde la API local de ngrok"
+            exit 1
+          fi
+
+      - name: Print SSH command
+        run: |
+          python3 -c "
+          import json, sys
+          with open('tunnels.json', 'r', encoding='utf-8') as f:
+              data = json.load(f)
+          for t in data.get('tunnels', []):
+              url = t.get('public_url', '')
+              if url.startswith('tcp://'):
+                  hp = url.replace('tcp://', '')
+                  host, port = hp.split(':')
+                  print()
+                  print('SSH CONNECT:')
+                  print(f'ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}')
+                  print()
                   sys.exit(0)
-              except Exception:
-                  sys.exit(1)
-              PY
-                            if [ $? -eq 0 ]; then
-                              echo "tunnels.json válido"
-                              exit 0
-                            fi
-                          fi
-              
-                          sleep 3
-                        done
-              
-                        echo "No se pudo obtener tunnels.json válido desde la API local de ngrok"
-                        exit 1
-              
-                    - name: Print SSH command
-                      run: |
-                        python3 - <<'PY'
-              import json, sys
-              
-              with open("tunnels.json", "r", encoding="utf-8") as f:
-                  data = json.load(f)
-              
-              tunnels = data.get("tunnels", [])
-              for t in tunnels:
-                  url = t.get("public_url", "")
-                  if url.startswith("tcp://"):
-                      hp = url.replace("tcp://", "")
-                      host, port = hp.split(":")
-                      print("")
-                      print("SSH CONNECT:")
-                      print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
-                      print("")
-                      sys.exit(0)
-              
-              print("No se encontró ningún túnel TCP en tunnels.json")
-              sys.exit(1)
-              PY
-              
-                    - name: Keep runner alive
-                      run: |
-                        while true
-                        do
-                          echo alive
-                          date
-                          sleep 60
-                        done
+          print('No se encontró ningún túnel TCP en tunnels.json')
+          sys.exit(1)
+          "
+          
+                - name: Keep runner alive
+                  run: |
+                    while true; do
+                      echo alive
+                      date
+                      sleep 60
+                    done
