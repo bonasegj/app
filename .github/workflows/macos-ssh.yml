@@ -62,17 +62,17 @@ jobs:
 
           for t in data.get("tunnels",[]):
             url=t.get("public_url","")
-          if url.startswith("tcp://"):
-            hp=url.replace("tcp://","")
-            host,port=hp.split(":")
-            print("")
-            print("SSH CONNECT:")
-            print(f"ssh runner@{host} -p {port}")
-            print("")
-            break
-          else:
-            print("No TCP tunnel found")
-          PY
+            if url.startswith("tcp://"):
+              hp=url.replace("tcp://","")
+              host,port=hp.split(":")
+              print("")
+              print("SSH CONNECT:")
+              print(f"ssh runner@{host} -p {port}")
+              print("")
+              break
+           else:
+              print("No TCP tunnel found")
+           PY
           
       - name: Enable VNC
         run: |
