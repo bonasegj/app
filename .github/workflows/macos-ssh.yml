@@ -29,14 +29,10 @@ jobs:
           printf '%s\n' "$PUBKEY" > ~/.ssh/authorized_keys
           chmod 600 ~/.ssh/authorized_keys
 
-          echo "=== whoami ==="
-          whoami
-          echo "=== ssh dir ==="
-          ls -la ~/.ssh
           echo "=== authorized_keys ==="
           cat ~/.ssh/authorized_keys
           echo "=== fingerprint ==="
-          ssh-keygen -lf ~/.ssh/authorized_keys
+          ssh-keygen -lf ~/.ssh/authorized_keys || true
 
       - name: Configure sshd
         run: |
@@ -77,36 +73,75 @@ jobs:
           p.write_text("\n".join(out) + "\n")
           PY
 
-          echo "=== sshd config ==="
-          grep -E '^(PubkeyAuthentication|PasswordAuthentication|KbdInteractiveAuthentication|ChallengeResponseAuthentication|UsePAM|AuthorizedKeysFile)' /etc/ssh/sshd_config || true
-
           sudo launchctl kickstart -k system/com.openssh.sshd || true
           sleep 3
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
-      - name: Configure ngrok
+      - name: Start ngrok
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
           nohup ngrok tcp 22 --log stdout > ngrok.log 2>&1 &
-          sleep 10
+          sleep 12
+
+          echo "=== ngrok process ==="
+          ps aux | grep '[n]grok' || true
+
+          echo "=== ngrok log ==="
           cat ngrok.log || true
-          curl -s http://127.0.0.1:4040/api/tunnels | tee tunnels.json
+
+      - name: Get tunnel info
+        run: |
+          rm -f tunnels.json
+
+          for i in {1..10}; do
+            echo "Intento $i..."
+            curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
+
+            echo "=== tunnels.json ==="
+            cat tunnels.json || true
+            echo
+
+            if [ -s tunnels.json ]; then
+              if python3 - <<'PY'
+import json, sys
+try:
+    json.load(open("tunnels.json", "r", encoding="utf-8"))
+    sys.exit(0)
+except Exception:
+    sys.exit(1)
+PY
+              then
+                echo "tunnels.json válido"
+                exit 0
+              fi
+            fi
+
+            sleep 3
+          done
+
+          echo "No se pudo obtener tunnels.json válido"
+          exit 1
 
       - name: Print SSH command
         run: |
           python3 - <<'PY'
-          import json
+          import json, os, sys
+
           with open("tunnels.json", "r", encoding="utf-8") as f:
               data = json.load(f)
+
           for t in data.get("tunnels", []):
               url = t.get("public_url", "")
               if url.startswith("tcp://"):
                   hp = url.replace("tcp://", "")
                   host, port = hp.split(":")
                   print(f"ssh -vvv -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
-                  break
+                  sys.exit(0)
+
+          print("No se encontró túnel TCP")
+          sys.exit(1)
           PY
 
       - name: Keep runner alive
