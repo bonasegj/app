@@ -77,6 +77,13 @@ jobs:
         run: |
           curl -s http://127.0.0.1:4040/api/tunnels | tee tunnels.json
 
+      - name: Set VNC password
+        run: |
+          mkdir -p ~/.vnc
+          echo "runner" | /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
+            -configure -clientopts -setvnclegacy -vnclegacy yes \
+            -setvncpw -vncpw runner
+
       - name: Print connection info
         run: |
           python3 - <<'PY'
