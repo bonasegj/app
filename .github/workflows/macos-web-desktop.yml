@@ -18,8 +18,8 @@ jobs:
           brew install ngrok/ngrok/ngrok
           brew install python
           brew install websocketd
-          brew install --cask novac
-
+          brew install --cask font-nova-cut
+          
       - name: Enable Remote Management
         run: |
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
