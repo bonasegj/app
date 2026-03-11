@@ -39,7 +39,7 @@ jobs:
 
       - name: Start ngrok TCP tunnel
         env:
-          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+          NGROK_TOKEN: ${{ secrets.NGROK }}
         run: |
           ngrok config add-authtoken "$NGROK_TOKEN"
           ngrok tcp 22 --log=stdout > ngrok.log 2>&1 &
