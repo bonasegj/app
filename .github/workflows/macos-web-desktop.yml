@@ -18,7 +18,7 @@ jobs:
           brew install ngrok/ngrok/ngrok
           brew install python
           brew install websocketd
-          brew install novnc
+          brew install --cask novac
 
       - name: Enable Remote Management
         run: |
