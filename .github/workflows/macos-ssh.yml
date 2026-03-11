@@ -79,55 +79,55 @@ jobs:
 
             if [ -s tunnels.json ]; then
               python3 - <<'PY'
-import json, sys
-try:
-    with open("tunnels.json", "r", encoding="utf-8") as f:
-        json.load(f)
-    sys.exit(0)
-except Exception:
-    sys.exit(1)
-PY
-              if [ $? -eq 0 ]; then
-                echo "tunnels.json válido"
-                exit 0
-              fi
-            fi
-
-            sleep 3
-          done
-
-          echo "No se pudo obtener tunnels.json válido desde la API local de ngrok"
-          exit 1
-
-      - name: Print SSH command
-        run: |
-          python3 - <<'PY'
-import json, sys
-
-with open("tunnels.json", "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-tunnels = data.get("tunnels", [])
-for t in tunnels:
-    url = t.get("public_url", "")
-    if url.startswith("tcp://"):
-        hp = url.replace("tcp://", "")
-        host, port = hp.split(":")
-        print("")
-        print("SSH CONNECT:")
-        print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
-        print("")
-        sys.exit(0)
-
-print("No se encontró ningún túnel TCP en tunnels.json")
-sys.exit(1)
-PY
-
-      - name: Keep runner alive
-        run: |
-          while true
-          do
-            echo alive
-            date
-            sleep 60
-          done
+              import json, sys
+              try:
+                  with open("tunnels.json", "r", encoding="utf-8") as f:
+                      json.load(f)
+                  sys.exit(0)
+              except Exception:
+                  sys.exit(1)
+              PY
+                            if [ $? -eq 0 ]; then
+                              echo "tunnels.json válido"
+                              exit 0
+                            fi
+                          fi
+              
+                          sleep 3
+                        done
+              
+                        echo "No se pudo obtener tunnels.json válido desde la API local de ngrok"
+                        exit 1
+              
+                    - name: Print SSH command
+                      run: |
+                        python3 - <<'PY'
+              import json, sys
+              
+              with open("tunnels.json", "r", encoding="utf-8") as f:
+                  data = json.load(f)
+              
+              tunnels = data.get("tunnels", [])
+              for t in tunnels:
+                  url = t.get("public_url", "")
+                  if url.startswith("tcp://"):
+                      hp = url.replace("tcp://", "")
+                      host, port = hp.split(":")
+                      print("")
+                      print("SSH CONNECT:")
+                      print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
+                      print("")
+                      sys.exit(0)
+              
+              print("No se encontró ningún túnel TCP en tunnels.json")
+              sys.exit(1)
+              PY
+              
+                    - name: Keep runner alive
+                      run: |
+                        while true
+                        do
+                          echo alive
+                          date
+                          sleep 60
+                        done
