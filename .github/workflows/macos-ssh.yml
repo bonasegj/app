@@ -54,62 +54,79 @@ jobs:
       - name: Start ngrok
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        shell: bash
         run: |
+          set -x
+
           ngrok config add-authtoken "$NGROK_TOKEN"
 
-          nohup ngrok tcp 22 \
-            --web-addr 127.0.0.1:4040 \
-            --log stdout \
-            --log-format json \
-            > ngrok.log 2>&1 &
+          nohup ngrok tcp 22 --log stdout --log-format json > ngrok.log 2>&1 &
+          echo $! > ngrok.pid
 
-          sleep 12
+          sleep 15
+
+          echo "=== ngrok pid ==="
+          cat ngrok.pid || true
 
           echo "=== ngrok process ==="
+          ps -p "$(cat ngrok.pid)" -o pid,ppid,stat,command || true
           ps aux | grep '[n]grok' || true
 
           echo "=== ngrok log ==="
           cat ngrok.log || true
 
-      - name: Query local ngrok API
+      - name: Print SSH command from ngrok log
+        shell: bash
         run: |
-          echo "=== curl to local API ==="
-          curl -sv http://127.0.0.1:4040/api/tunnels -o tunnels.json || true
+          echo "=== ngrok log again ==="
+          cat ngrok.log || true
 
-          echo
-          echo "=== tunnels.json ==="
-          cat tunnels.json || true
-          echo
-
-          if [ ! -s tunnels.json ]; then
-            echo "tunnels.json está vacío"
-            exit 1
-          fi
-
-      - name: Print SSH command
-        run: |
-          python3 -c "
-          import json, sys
-          with open('tunnels.json', 'r', encoding='utf-8') as f:
-              data = json.load(f)
-          for t in data.get('tunnels', []):
-              url = t.get('public_url', '')
-              if url.startswith('tcp://'):
-                  hp = url.replace('tcp://', '')
-                  host, port = hp.split(':')
-                  print()
-                  print('SSH CONNECT:')
-                  print(f'ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}')
-                  print()
-                  sys.exit(0)
-          print('No se encontró ningún túnel TCP en tunnels.json')
-          sys.exit(1)
-          "
+          URL="$(python3 - <<'PY'
+          import json
           
-                - name: Keep runner alive
-                  run: |
-                    while true; do
-                      echo alive
-                      date
-                      sleep 60
-                    done
+          url = ""
+          with open("ngrok.log", "r", encoding="utf-8", errors="ignore") as f:
+              for line in f:
+                  line = line.strip()
+                  if not line:
+                      continue
+                  try:
+                      obj = json.loads(line)
+                  except Exception:
+                      continue
+          
+                  msg = str(obj.get("msg", ""))
+                  if "started tunnel" in msg.lower() or "started tunnel" == msg.lower():
+                      url = obj.get("url", "") or obj.get("public_url", "") or ""
+                  if not url:
+                      maybe = obj.get("url", "")
+                      if isinstance(maybe, str) and maybe.startswith("tcp://"):
+                          url = maybe
+          
+          print(url)
+          PY
+          )"
+          
+                    echo "=== extracted url ==="
+                    echo "$URL"
+          
+                    if [ -z "$URL" ]; then
+                      echo "No se pudo extraer la URL TCP desde ngrok.log"
+                      exit 1
+                    fi
+          
+                    HOSTPORT="${URL#tcp://}"
+                    HOST="${HOSTPORT%:*}"
+                    PORT="${HOSTPORT##*:}"
+          
+                    echo ""
+                    echo "SSH CONNECT:"
+                    echo "ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@${HOST} -p ${PORT}"
+                    echo ""
+                          - name: Keep runner alive
+                            run: |
+                              while true; do
+                                echo alive
+                                date
+                                sleep 60
+                              done
