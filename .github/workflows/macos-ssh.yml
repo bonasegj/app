@@ -9,6 +9,7 @@ jobs:
     timeout-minutes: 360
 
     steps:
+
       - name: Enable Remote Login
         run: |
           sudo systemsetup -setremotelogin on
@@ -19,7 +20,6 @@ jobs:
         run: |
           brew install ngrok/ngrok/ngrok
           ngrok version
-          ngrok config check || true
 
       - name: Configure SSH key
         env:
@@ -51,7 +51,7 @@ jobs:
           echo "=== ssh listening ==="
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
-      - name: Write ngrok config
+      - name: Create ngrok config
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
@@ -71,10 +71,10 @@ jobs:
           echo "=== ngrok config ==="
           cat "$HOME/Library/Application Support/ngrok/ngrok.yml"
 
-      - name: Start ngrok single agent
+      - name: Start ngrok
         run: |
           nohup ngrok start --all --log stdout --log-format json > ngrok.log 2>&1 &
-          sleep 12
+          sleep 15
 
           echo "=== ngrok process ==="
           ps aux | grep '[n]grok' || true
@@ -82,24 +82,48 @@ jobs:
           echo "=== ngrok log ==="
           cat ngrok.log || true
 
-      - name: Query local ngrok API
+      - name: Get tunnel info
         run: |
-          curl -sv http://127.0.0.1:4040/api/tunnels -o tunnels.json || true
+          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
 
-          echo
           echo "=== tunnels.json ==="
           cat tunnels.json || true
-          echo
 
           if [ ! -s tunnels.json ]; then
-            echo "tunnels.json está vacío"
+            echo "tunnels.json vacío"
             exit 1
           fi
-    
-      - name: Keep runner alive
+
+      - name: Print SSH command
         run: |
-          while true; do
-            echo alive
-            date
-            sleep 60
-          done
+          python3 <<'PY'
+          import json
+          import sys
+          
+          with open("tunnels.json","r",encoding="utf-8") as f:
+              data=json.load(f)
+          
+          for t in data.get("tunnels",[]):
+              if t.get("name")=="ssh":
+                  url=t.get("public_url","")
+                  if url.startswith("tcp://"):
+                      hp=url.replace("tcp://","")
+                      host,port=hp.split(":")
+                      print("")
+                      print("SSH CONNECT:")
+                      print(f"ssh runner@{host} -p {port}")
+                      print("use key: C:\\Users\\Jorge\\.ssh\\id_ed25519")
+                      print("")
+                      sys.exit(0)
+          
+          print("No SSH tunnel found")
+          sys.exit(1)
+          PY
+          
+                - name: Keep runner alive
+                  run: |
+                    while true; do
+                      echo alive
+                      date
+                      sleep 60
+                    done
