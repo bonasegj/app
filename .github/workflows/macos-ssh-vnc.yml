@@ -9,12 +9,6 @@ jobs:
     timeout-minutes: 360
 
     steps:
-      - name: Boot config
-        run: |
-          sudo nvram boot-args="igfxfb=1"
-          sudo reboot
-          sleep 20
-          
       - name: Enable Remote Login
         run: |
           sudo systemsetup -setremotelogin on
