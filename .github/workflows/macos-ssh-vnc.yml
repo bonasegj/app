@@ -5,7 +5,7 @@ on:
 
 jobs:
   remote:
-    runs-on: macos-latest
+    runs-on: macos-12
     timeout-minutes: 360
 
     steps:
