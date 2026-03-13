@@ -48,18 +48,28 @@ jobs:
 
           python3 <<'PY'
           import json
-          
-          data=json.load(open("tunnels.json"))
-          
-          for t in data["tunnels"]:
-              if t["proto"]=="https":
-                  print("\nOPEN MAC DESKTOP:\n")
+          import sys
+
+          with open("tunnels.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          for t in data.get("tunnels", []):
+              if t.get("proto") == "https":
+                  print("")
+                  print("OPEN MAC DESKTOP:")
+                  print("")
                   print(t["public_url"])
-                  print("\nUser: runner\n")
+                  print("")
+                  print("User: runner")
+                  print("")
+                  sys.exit(0)
+
+          print("No HTTPS tunnel found")
+          sys.exit(1)
           PY
           
-                - name: Keep runner alive
-                  run: |
+      - name: Keep runner alive
+        run: |
           while true; do
             echo alive
             sleep 60
