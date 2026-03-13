@@ -64,7 +64,7 @@ jobs:
           sleep 5
 
           echo "=== vnc listening ==="
-          sudo lsof -nP -iTCP:5900 -sTCP:LISTEN || true
+          sudo lsof -nP -iTCP:5901 -sTCP:LISTEN || true
 
           open -a Finder || true
           open -a Safari || true
