@@ -160,7 +160,7 @@ jobs:
               sys.exit(1)
           PY
 
-      - name: account and Kickstart 
+      - name: Account and Kickstart 
         run: |
           sudo sysadminctl -addUser Jorge -fullName "Jorge Bonasegna" -password "Luis3673"
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
