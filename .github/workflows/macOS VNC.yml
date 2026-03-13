@@ -73,80 +73,9 @@ jobs:
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
-          mkdir -p "$HOME/Library/Application Support/ngrok"
-
-          cat > "$HOME/Library/Application Support/ngrok/ngrok.yml" <<EOF
-          version: 3
-          agent:
-            authtoken: $NGROK_TOKEN
-            web_addr: 127.0.0.1:4040
-          tunnels:
-            vnc:
-              proto: tcp
-              addr: 5900
-          EOF
-
-          echo "=== ngrok config ==="
-          cat "$HOME/Library/Application Support/ngrok/ngrok.yml"
-
-      - name: Start ngrok single agent
-        run: |
-          nohup ngrok start --all --log stdout --log-format json > ngrok.log 2>&1 &
-          sleep 15
-
-          echo "=== ngrok process ==="
-          ps aux | grep '[n]grok' || true
-
-          echo "=== ngrok log ==="
-          cat ngrok.log || true
-
-      - name: Query local ngrok API
-        run: |
-          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
-
-          echo "=== tunnels.json ==="
-          cat tunnels.json || true
-
-          if [ ! -s tunnels.json ]; then
-            echo "tunnels.json vacío"
-            exit 1
-          fi
-
-      - name: Print connection info
-        run: |
-          python3 <<'PY'
-          import json
-          import sys
-
-          with open("tunnels.json", "r", encoding="utf-8") as f:
-              data = json.load(f)
-
-          vnc_url = None
-
-          for t in data.get("tunnels", []):
-              name = t.get("name", "")
-              url = t.get("public_url", "")
-              if name == "vnc" and url.startswith("tcp://"):
-                  vnc_url = url
-
-          print()
-          print("=== CONNECTION INFO ===")
-          print()
-
-          if vnc_url:
-              hp = vnc_url.replace("tcp://", "")
-              host, port = hp.split(":")
-              print("VNC:")
-              print(f"{host}:{port}")
-              print("Usuario: runner")
-              print("Password VNC: runner")
-              print()
-              sys.exit(0)
-
-          print("No se encontró túnel VNC")
-          sys.exit(1)
-          PY
-
+          ngrok config add-authtoken $NGROK_TOKEN
+          ngrok tcp 5900
+          
       - name: Account and Kickstart
         run: |
           sudo sysadminctl -addUser Jorge -fullName "Jorge Bonasegna" -password "Luis3673" || true
