@@ -165,9 +165,9 @@ jobs:
           sudo sysadminctl -addUser Jorge -fullName "Jorge Bonasegna" -password "Luis3673"
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
             -activate -configure -access -on \
-            -users bonasegj -privs -all \
+            -privs -all \
             -clientopts -setvnclegacy -vnclegacy yes \
-            -clientopts -setvncpw -vncpw bonasegj \
+            -clientopts -setvncpw -vncpw vncpw \
             -restart -agent -menu
 
      # - name: tmux
