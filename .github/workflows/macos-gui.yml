@@ -45,29 +45,27 @@ jobs:
       - name: Print GUI URL
         run: |
           curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json
-
+      
           python3 <<'PY'
-          import json
-          import sys
-
+          import json, sys
+      
           with open("tunnels.json", "r", encoding="utf-8") as f:
               data = json.load(f)
-
+      
           for t in data.get("tunnels", []):
+              url = t.get("public_url", "")
               if t.get("proto") == "https":
                   print("")
                   print("OPEN MAC DESKTOP:")
-                  print("")
-                  print(t["public_url"])
-                  print("")
-                  print("User: runner")
+                  print(url)
+                  print(url + "/vnc.html")
+                  print(url + "/vnc.html?autoconnect=true")
                   print("")
                   sys.exit(0)
-
+      
           print("No HTTPS tunnel found")
           sys.exit(1)
-          PY
-          
+          PY          
       - name: Keep runner alive
         run: |
           while true; do
