@@ -19,16 +19,22 @@ jobs:
       - name: Start XPRA desktop
         run: |
           mkdir -p ~/xpra
-          xpra start :100 \
-            --bind-tcp=0.0.0.0:10000 \
+          nohup xpra start :100 \
+            --bind-tcp=127.0.0.1:10000 \
             --html=on \
             --daemon=no \
             --start-child="open -a Finder" \
-            --start-child="open -a Safari" \
             > xpra.log 2>&1 &
-
           sleep 10
           cat xpra.log || true
+          lsof -nP -iTCP:10000 -sTCP:LISTEN || true
+            - name: Check GUI service
+            run: |
+              echo "=== listening on 10000 ==="
+              lsof -nP -iTCP:10000 -sTCP:LISTEN || true
+          
+              echo "=== xpra log ==="
+              cat xpra.log || true    
 
       - name: Configure ngrok
         env:
@@ -38,7 +44,7 @@ jobs:
 
       - name: Start ngrok tunnel
         run: |
-          nohup ngrok http 10000 > ngrok.log 2>&1 &
+          nohup ngrok http: 127.0.0.1:10000 > ngrok.log 2>&1 &
           sleep 10
           cat ngrok.log
 
