@@ -69,12 +69,20 @@ jobs:
           open -a Finder || true
           open -a Safari || true
 
-      - name: Write ngrok config
+      - name: Start ngrok
         env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         run: |
           ngrok config add-authtoken $NGROK_TOKEN
-          ngrok tcp 5900
+
+          nohup ngrok tcp 5900 --log stdout --log-format json > ngrok.log 2>&1 &
+          sleep 15
+
+          echo "=== ngrok process ==="
+          ps aux | grep '[n]grok' || true
+
+          echo "=== ngrok log ==="
+          cat ngrok.log || true
           
       - name: Account and Kickstart
         run: |
