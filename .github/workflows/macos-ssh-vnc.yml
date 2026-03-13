@@ -81,12 +81,12 @@ jobs:
             authtoken: $NGROK_TOKEN
             web_addr: 127.0.0.1:4040
           tunnels:
-            ssh:
-              proto: tcp
-              addr: 22
             vnc:
               proto: tcp
               addr: 5900
+            ssh:
+              proto: tcp
+              addr: 22
           EOF
 
           echo "=== ngrok config ==="
