@@ -1,0 +1,166 @@
+name: macOS VNC
+
+on:
+  workflow_dispatch:
+
+jobs:
+  remote:
+    runs-on: macos-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Enable Remote Login
+        run: |
+          sudo systemsetup -setremotelogin on
+          sudo systemsetup -getremotelogin
+          echo "=== ssh listening ==="
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
+
+      - name: Install ngrok
+        run: |
+          brew install ngrok/ngrok/ngrok
+          ngrok version
+          ngrok config check || true
+
+      - name: Configure SSH key
+        env:
+          PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$PUBKEY" > ~/.ssh/authorized_keys
+          chmod 600 ~/.ssh/authorized_keys
+
+          echo "=== authorized_keys ==="
+          cat ~/.ssh/authorized_keys
+
+          echo "=== fingerprint ==="
+          ssh-keygen -lf ~/.ssh/authorized_keys || true
+
+      - name: Configure sshd
+        run: |
+          sudo sed -i '' 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+          sudo sed -i '' 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+          if ! grep -q '^AuthorizedKeysFile /Users/runner/.ssh/authorized_keys$' /etc/ssh/sshd_config; then
+            echo 'AuthorizedKeysFile /Users/runner/.ssh/authorized_keys' | sudo tee -a /etc/ssh/sshd_config
+          fi
+
+          sudo launchctl kickstart -k system/com.openssh.sshd || true
+          sleep 3
+
+          echo "=== ssh listening after config ==="
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
+
+      - name: Enable Remote Management and VNC password
+        run: |
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
+            -activate -configure -access -on \
+            -users runner -privs -all \
+            -clientopts -setvnclegacy -vnclegacy yes \
+            -clientopts -setvncpw -vncpw runner \
+            -restart -agent -menu
+
+          sleep 5
+
+          echo "=== vnc listening ==="
+          sudo lsof -nP -iTCP:5900 -sTCP:LISTEN || true
+
+          open -a Finder || true
+          open -a Safari || true
+
+      - name: Write ngrok config
+        env:
+          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        run: |
+          mkdir -p "$HOME/Library/Application Support/ngrok"
+
+          cat > "$HOME/Library/Application Support/ngrok/ngrok.yml" <<EOF
+          version: 3
+          agent:
+            authtoken: $NGROK_TOKEN
+            web_addr: 127.0.0.1:4040
+          tunnels:
+            vnc:
+              proto: tcp
+              addr: 5900
+          EOF
+
+          echo "=== ngrok config ==="
+          cat "$HOME/Library/Application Support/ngrok/ngrok.yml"
+
+      - name: Start ngrok single agent
+        run: |
+          nohup ngrok start --all --log stdout --log-format json > ngrok.log 2>&1 &
+          sleep 15
+
+          echo "=== ngrok process ==="
+          ps aux | grep '[n]grok' || true
+
+          echo "=== ngrok log ==="
+          cat ngrok.log || true
+
+      - name: Query local ngrok API
+        run: |
+          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
+
+          echo "=== tunnels.json ==="
+          cat tunnels.json || true
+
+          if [ ! -s tunnels.json ]; then
+            echo "tunnels.json vacío"
+            exit 1
+          fi
+
+      - name: Print connection info
+        run: |
+          python3 <<'PY'
+          import json
+          import sys
+
+          with open("tunnels.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          vnc_url = None
+
+          for t in data.get("tunnels", []):
+              name = t.get("name", "")
+              url = t.get("public_url", "")
+              if name == "vnc" and url.startswith("tcp://"):
+                  vnc_url = url
+
+          print()
+          print("=== CONNECTION INFO ===")
+          print()
+
+          if vnc_url:
+              hp = vnc_url.replace("tcp://", "")
+              host, port = hp.split(":")
+              print("VNC:")
+              print(f"{host}:{port}")
+              print("Usuario: runner")
+              print("Password VNC: runner")
+              print()
+              sys.exit(0)
+
+          print("No se encontró túnel VNC")
+          sys.exit(1)
+          PY
+
+      - name: Account and Kickstart
+        run: |
+          sudo sysadminctl -addUser Jorge -fullName "Jorge Bonasegna" -password "Luis3673" || true
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
+            -activate -configure -access -on \
+            -privs -all \
+            -clientopts -setvnclegacy -vnclegacy yes \
+            -clientopts -setvncpw -vncpw vncpw \
+            -restart -agent -menu
+
+      - name: Keep runner alive
+        run: |
+          while true; do
+            echo alive
+            date
+            sleep 60
+          done
