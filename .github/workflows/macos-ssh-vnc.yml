@@ -54,14 +54,14 @@ jobs:
 
       - name: Enable Remote Management and VNC password
         run: |
-          #sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
-          #  -activate -configure -access -on \
-          #  -users runner -privs -all \
-          #  -clientopts -setvnclegacy -vnclegacy yes \
-          #  -clientopts -setvncpw -vncpw runner \
-          #  -restart -agent -menu
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
+            -activate -configure -access -on \
+            -users runner -privs -all \
+            -clientopts -setvnclegacy -vnclegacy yes \
+            -clientopts -setvncpw -vncpw runner \
+            -restart -agent -menu
 
-          #sleep 5
+          sleep 5
 
           echo "=== vnc listening ==="
           sudo lsof -nP -iTCP:5900 -sTCP:LISTEN || true
