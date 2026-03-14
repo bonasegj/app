@@ -85,7 +85,7 @@ jobs:
               proto: tcp
               addr: 22
             vnc:
-              proto: udp
+              proto: tcp
               addr: 5900
           EOF
 
