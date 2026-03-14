@@ -84,9 +84,12 @@ jobs:
             ssh:
               proto: tcp
               addr: 22
-            vnc:
+            vnc0:
               proto: tcp
               addr: 5900
+            vnc1:
+              proto: tcp
+              addr: 5901
           EOF
 
           echo "=== ngrok config ==="
