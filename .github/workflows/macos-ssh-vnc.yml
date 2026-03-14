@@ -84,10 +84,7 @@ jobs:
             ssh:
               proto: tcp
               addr: 22
-            vnc0:
-              proto: tcp
-              addr: 5900
-            vnc1:
+            vnc:
               proto: tcp
               addr: 5901
           EOF
