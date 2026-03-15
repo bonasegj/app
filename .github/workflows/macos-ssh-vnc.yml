@@ -9,6 +9,10 @@ jobs:
     timeout-minutes: 360
 
     steps:
+      - name: New account 
+        run: |
+          sudo sysadminctl -addUser Jorge -fullName "Jorge Bonasegna" -password "Luis3673"
+       
       - name: Enable Remote Login
         run: |
           sudo systemsetup -setremotelogin on
@@ -61,10 +65,6 @@ jobs:
 
           open -a Finder || true
           open -a Safari || true
-
-      - name: New account 
-        run: |
-          sudo sysadminctl -addUser Jorge -fullName "Jorge Bonasegna" -password "Luis3673"
 
       - name: Install ngrok
         run: |
