@@ -16,12 +16,6 @@ jobs:
           echo "=== ssh listening ==="
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
-      - name: Install ngrok
-        run: |
-          brew install ngrok/ngrok/ngrok
-          ngrok version
-          ngrok config check || true
-
       - name: Configure SSH key
         env:
           PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
@@ -52,15 +46,14 @@ jobs:
           echo "=== ssh listening after config ==="
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
 
-      - name: Enable Remote Management and VNC password
+      - name: Start VNC service
         run: |
-          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
-            -activate -configure -access -on \
-            -users runner -privs -all \
-            -clientopts -setvnclegacy -vnclegacy yes \
-            -clientopts -setvncpw -vncpw runner \
-            -restart -agent -menu
-
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -access -on -allowAccessFor -allUsers -privs -all
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvnclegacy -vnclegacy yes
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvncpw -vncpw 72917
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console -menu
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
+      
           sleep 5
 
           echo "=== vnc listening ==="
@@ -68,6 +61,16 @@ jobs:
 
           open -a Finder || true
           open -a Safari || true
+
+      - name: New account 
+        run: |
+          sudo sysadminctl -addUser Jorge -fullName "Jorge Bonasegna" -password "Luis3673"
+
+      - name: Install ngrok
+        run: |
+          brew install ngrok/ngrok/ngrok
+          ngrok version
+          ngrok config check || true
 
       - name: Write ngrok config
         env:
@@ -160,21 +163,6 @@ jobs:
               sys.exit(1)
           PY
 
-      - name: Account and Kickstart 
-        run: |
-          sudo sysadminctl -addUser Jorge -fullName "Jorge Bonasegna" -password "Luis3673"
-          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
-            -activate -configure -access -on \
-            -privs -all \
-            -clientopts -setvnclegacy -vnclegacy yes \
-            -clientopts -setvncpw -vncpw vncpw \
-            -restart -agent -menu
-
-     # - name: tmux
-     #   run: |
-     #     brew install tmux
-     #     tmux attach -t remote
-          
       - name: Keep runner alive
         run: |
           while true; do
