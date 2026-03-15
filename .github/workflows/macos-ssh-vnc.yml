@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: New account 
         run: |
-          sudo sysadminctl -addUser Juan -fullName "Juan Perez" -password "Juan9876" -admin
+          sudo sysadminctl -addUser Juan -fullName "Juan Perez" -password "Juan9876" 
 
       - name: Enable Remote Login
         run: |
@@ -146,7 +146,7 @@ jobs:
               hp = ssh_url.replace("tcp://", "")
               host, port = hp.split(":")
               print("SSH:")
-              print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 Juan@{host} -p {port}")
+              print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
               print()
 
           if vnc_url:
