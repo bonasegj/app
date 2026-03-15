@@ -11,8 +11,9 @@ jobs:
     steps:
       - name: New account 
         run: |
-          sudo sysadminctl -addUser Jorge -fullName "Jorge Bonasegna" -password "Luis3673"
-       
+          sudo sysadminctl -addUser Juan -fullName "Juan Lopez" -password "Luis3673"
+          sudo dscl . -append /Groups/admin GroupMembership Juan
+
       - name: Enable Remote Login
         run: |
           sudo systemsetup -setremotelogin on
@@ -44,6 +45,10 @@ jobs:
             echo 'AuthorizedKeysFile /Users/runner/.ssh/authorized_keys' | sudo tee -a /etc/ssh/sshd_config
           fi
 
+          if ! grep -q '^AuthorizedKeysFile /Users/runner/.ssh/authorized_keys$' /etc/ssh/sshd_config; then
+            echo 'AuthorizedKeysFile /Users/Juan/.ssh/authorized_keys' | sudo tee -a /etc/ssh/sshd_config
+          fi
+
           sudo launchctl kickstart -k system/com.openssh.sshd || true
           sleep 3
 
@@ -54,7 +59,7 @@ jobs:
         run: |
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -access -on -allowAccessFor -allUsers -privs -all
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvnclegacy -vnclegacy yes
-          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvncpw -vncpw 72917
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvncpw -vncpw runner
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console -menu
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
       
