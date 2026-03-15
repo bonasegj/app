@@ -14,11 +14,11 @@ jobs:
           sudo dscl . -create /Users/Juan
           sudo dscl . -create /Users/Juan UserShell /bin/bash
           sudo dscl . -create /Users/Juan RealName "Juan Perez"
-          sudo dscl . -create /Users/Juan UniqueID 1001
-          sudo dscl . -create /Users/Juan PrimaryGroupID 80
+          sudo dscl . -create /Users/Juan UniqueID 1357
+          sudo dscl . -create /Users/Juan PrimaryGroupID 20
           sudo dscl . -create /Users/Juan NFSHomeDirectory /Users/Juan
-          sudo mkdir /Users/Juan
-          sudo chown Juan:admin /Users/Juan
+          sudo cp -R /System/Library/User\ Template/English.lproj /Users/Juan
+          sudo chown -R Juan:staff /Users/Juan
           sudo dscl . -passwd /Users/Juan Juan9876
           sudo dscl . -append /Groups/admin GroupMembership Juan
 
