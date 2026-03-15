@@ -11,7 +11,15 @@ jobs:
     steps:
       - name: New account 
         run: |
-          sudo sysadminctl -addUser Juan -fullName "Juan Perez" -password Juan9876
+          sudo dscl . -create /Users/Juan
+          sudo dscl . -create /Users/Juan UserShell /bin/bash
+          sudo dscl . -create /Users/Juan RealName "Juan Perez"
+          sudo dscl . -create /Users/Juan UniqueID 1001
+          sudo dscl . -create /Users/Juan PrimaryGroupID 80
+          sudo dscl . -create /Users/Juan NFSHomeDirectory /Users/Juan
+          sudo mkdir /Users/Juan
+          sudo chown Juan:admin /Users/Juan
+          sudo dscl . -passwd /Users/Juan Juan9876
           sudo dscl . -append /Groups/admin GroupMembership Juan
 
       - name: Enable Remote Login
