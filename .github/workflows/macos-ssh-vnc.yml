@@ -86,7 +86,7 @@ jobs:
               addr: 22
             vnc:
               proto: tcp
-              addr: 5900
+              addr: 4000
           EOF
 
           echo "=== ngrok config ==="
