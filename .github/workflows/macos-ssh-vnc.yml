@@ -5,13 +5,13 @@ on:
 
 jobs:
   remote:
-    runs-on: macos-latest
+    runs-on: macos-26
     timeout-minutes: 360
 
     steps:
       - name: New account 
         run: |
-          sudo sysadminctl -addUser Juan -fullName "Juan Perez" -password "Juan9876" 
+          sudo sysadminctl -addUser Juan -fullName "Juan Perez" -password "Luis9876" -admin
 
       - name: Enable Remote Login
         run: |
@@ -57,6 +57,9 @@ jobs:
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvncpw -vncpw runner
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console -menu
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
+
+          sudo launchctl unload /System/Library/LaunchDaemons/com.apple.screensharing.plist         
+          sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
       
           sleep 5
 
