@@ -1,0 +1,182 @@
+name: macOS SSH + NX
+
+on:
+  workflow_dispatch:
+
+jobs:
+  remote:
+    runs-on: macos-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: New account 
+        run: |
+          sudo sysadminctl -addUser Juan -fullName "Juan Perez" -password "Luis9876" -admin
+
+      - name: Enable Remote Login
+        run: |
+          sudo systemsetup -setremotelogin on
+          sudo systemsetup -getremotelogin
+          echo "=== ssh listening ==="
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
+
+      - name: Configure SSH key
+        env:
+          PUBKEY: ${{ secrets.SSH_PUBLIC_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$PUBKEY" > ~/.ssh/authorized_keys
+          chmod 600 ~/.ssh/authorized_keys
+
+          echo "=== authorized_keys ==="
+          cat ~/.ssh/authorized_keys
+
+          echo "=== fingerprint ==="
+          ssh-keygen -lf ~/.ssh/authorized_keys || true
+
+      - name: Configure sshd
+        run: |
+          sudo sed -i '' 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+          sudo sed -i '' 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+          if ! grep -q '^AuthorizedKeysFile /Users/runner/.ssh/authorized_keys$' /etc/ssh/sshd_config; then
+            echo 'AuthorizedKeysFile /Users/runner/.ssh/authorized_keys' | sudo tee -a /etc/ssh/sshd_config
+          fi
+
+          sudo launchctl kickstart -k system/com.openssh.sshd || true
+          sleep 3
+
+          echo "=== ssh listening after config ==="
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN || true
+
+      - name: Start VNC service
+        run: |
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -access -on -allowAccessFor -allUsers -privs -all
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvnclegacy -vnclegacy yes
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvncpw -vncpw runner
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console -menu
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
+
+          sudo launchctl unload /System/Library/LaunchDaemons/com.apple.screensharing.plist         
+          sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
+      
+          sleep 5
+
+          echo "=== vnc listening ==="
+          sudo lsof -nP -iTCP:5900 -sTCP:LISTEN || true
+
+          open -a Finder || true
+          open -a Safari || true
+
+      - name: Install ngrok
+        run: |
+          brew install ngrok/ngrok/ngrok
+          ngrok version
+          ngrok config check || true
+
+      - name: Write ngrok config
+        env:
+          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        run: |
+          mkdir -p "$HOME/Library/Application Support/ngrok"
+
+          cat > "$HOME/Library/Application Support/ngrok/ngrok.yml" <<EOF
+          version: 3
+          agent:
+            authtoken: $NGROK_TOKEN
+            web_addr: 127.0.0.1:4040
+          tunnels:
+            ssh:
+              proto: tcp
+              addr: 22
+            nx:
+              proto: tcp
+              addr: 4000
+          EOF
+
+          echo "=== ngrok config ==="
+          cat "$HOME/Library/Application Support/ngrok/ngrok.yml"
+
+      - name: Start ngrok single agent
+        run: |
+          nohup ngrok start --all --log stdout --log-format json > ngrok.log 2>&1 &
+          sleep 15
+
+          echo "=== ngrok process ==="
+          ps aux | grep '[n]grok' || true
+
+          echo "=== ngrok log ==="
+          cat ngrok.log || true
+
+      - name: Query local ngrok API
+        run: |
+          curl -s http://127.0.0.1:4040/api/tunnels > tunnels.json || true
+
+          echo "=== tunnels.json ==="
+          cat tunnels.json || true
+
+          if [ ! -s tunnels.json ]; then
+            echo "tunnels.json vacío"
+            exit 1
+          fi
+
+      - name: Print connection info
+        run: |
+          python3 <<'PY'
+          import json
+          import sys
+
+          with open("tunnels.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          ssh_url = None
+          nx_url = None
+
+          for t in data.get("tunnels", []):
+              name = t.get("name", "")
+              url = t.get("public_url", "")
+              if name == "ssh" and url.startswith("tcp://"):
+                  ssh_url = url
+              elif name == "nx" and url.startswith("tcp://"):
+                  nx_url = url
+
+          print()
+          print("=== CONNECTION INFO ===")
+          print()
+
+          if ssh_url:
+              hp = ssh_url.replace("tcp://", "")
+              host, port = hp.split(":")
+              print("SSH:")
+              print(f"ssh -o IdentitiesOnly=yes -i C:\\Users\\Jorge\\.ssh\\id_ed25519 runner@{host} -p {port}")
+              print()
+
+          if nx_url:
+              hp = nx_url.replace("tcp://", "")
+              host, port = hp.split(":")
+              print("NX:")
+              print(f"{host}:{port}")
+              print("Usuario: runner")
+              print("Password VNC: runner")
+              print()
+
+          if not ssh_url and not nx_url:
+              print("No se encontraron túneles")
+              sys.exit(1)
+          PY
+
+      - name: Set up NoMachine
+        run: |
+          curl -LO https://web9001.nomachine.com/download/9.3/MacOSX/nomachine_9.3.7_1.dmg
+          hdiutil mount nomachine-package-name_version.dmg
+          cd "/Volumes/NoMachine"
+          sudo installer -pkg NoM     
+
+      - name: Keep runner alive
+        run: |
+          while true; do
+            echo alive
+            date
+            sleep 60
+          done
