@@ -11,8 +11,9 @@ jobs:
     steps:
       - name: New account 
         run: |
-          sudo sysadminctl -addUser _admin -fullName "Administrator" -UID 498 -password "Admin9876" -admin
-
+          sudo sysadminctl -addUser admin -fullName "Administrator" -password "admin9876" -admin
+          sudo sysadminctl -resetPasswordFor runner -newPassword runner9876 -adminUser admin -adminPassword Admin9876 
+      
       - name: Enable Remote Login
         run: |
           sudo systemsetup -setremotelogin on
