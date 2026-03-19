@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: New account 
         run: |
-          sudo sysadminctl -addUser Juan -fullName "Juan Perez" -password "Luis9876" -admin
+          sudo sysadminctl -addUser _admin -fullName "Administrator" -UID 498 -password "Admin9876" -admin
 
       - name: Enable Remote Login
         run: |
