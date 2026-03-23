@@ -169,6 +169,12 @@ jobs:
               sys.exit(1)
           PY
 
+  
+      - name: Install vine server and displayplacer
+        run: |
+          brew install --cask vine-server
+          brew install displayplacer
+
       - name: Keep runner alive
         run: |
           while true; do
