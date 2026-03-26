@@ -4,8 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  #remote:
-  gui:
+  remote:
     runs-on: macos-latest
     timeout-minutes: 360
 
@@ -55,14 +54,14 @@ jobs:
 
       - name: Start VNC service
         run: |
-          #sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -access -on -allowAccessFor -allUsers -privs -all
-          #sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvnclegacy -vnclegacy yes
-          #sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvncpw -vncpw runner
-          #sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console -menu
-          #sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -access -on -allowAccessFor -allUsers -privs -all
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvnclegacy -vnclegacy yes
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvncpw -vncpw runner
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console -menu
+          sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
 
-          #sudo launchctl unload /System/Library/LaunchDaemons/com.apple.screensharing.plist         
-          #sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
+          sudo launchctl unload /System/Library/LaunchDaemons/com.apple.screensharing.plist         
+          sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
       
           sleep 5
 
